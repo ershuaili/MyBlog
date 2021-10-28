@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myblog.mapper.BlogMapper">
+
+    <resultMap type="com.myblog.entity.Blog" id="BlogMap">
+        <result property="articleId" column="article_id" jdbcType="INTEGER"/>
+        <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
+        <result property="articleFirstPicture" column="article_first_picture" jdbcType="VARCHAR"/>
+        <result property="articleDescription" column="article_description" jdbcType="VARCHAR"/>
+        <result property="articleContent" column="article_content" jdbcType="VARCHAR"/>
+        <result property="articleCreateTime" column="article_create_time" jdbcType="TIMESTAMP"/>
+        <result property="articleUpdateTime" column="article_update_time" jdbcType="TIMESTAMP"/>
+        <result property="articleVisitsCount" column="article_visits_count" jdbcType="INTEGER"/>
+        <result property="articleCommentCount" column="article_comment_count" jdbcType="INTEGER"/>
+        <result property="articleLikeCount" column="article_like_count" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BlogMap">
+        select article_id,
+               article_title,
+               article_first_picture,
+               article_description,
+               article_content,
+               article_create_time,
+               article_update_time,
+               article_visits_count,
+               article_comment_count,
+               article_like_count
+        from db_myblog.blog
+        where article_id = #{articleId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BlogMap">
+        select article_id,
+               article_title,
+               article_first_picture,
+               article_description,
+               article_content,
+               article_create_time,
+               article_update_time,
+               article_visits_count,
+               article_comment_count,
+               article_like_count
+        from db_myblog.blog
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BlogMap">
+        select
+        article_id, article_title, article_first_picture, article_description, article_content, article_create_time,
+        article_update_time, article_visits_count, article_comment_count, article_like_count
+        from db_myblog.blog
+        <where>
+            <if test="articleId != null">
+                and article_id = #{articleId}
+            </if>
+            <if test="articleTitle != null and articleTitle != ''">
+                and article_title = #{articleTitle}
+            </if>
+            <if test="articleFirstPicture != null and articleFirstPicture != ''">
+                and article_first_picture = #{articleFirstPicture}
+            </if>
+            <if test="articleDescription != null and articleDescription != ''">
+                and article_description = #{articleDescription}
+            </if>
+            <if test="articleContent != null and articleContent != ''">
+                and article_content = #{articleContent}
+            </if>
+            <if test="articleCreateTime != null">
+                and article_create_time = #{articleCreateTime}
+            </if>
+            <if test="articleUpdateTime != null">
+                and article_update_time = #{articleUpdateTime}
+            </if>
+            <if test="articleVisitsCount != null">
+                and article_visits_count = #{articleVisitsCount}
+            </if>
+            <if test="articleCommentCount != null">
+                and article_comment_count = #{articleCommentCount}
+            </if>
+            <if test="articleLikeCount != null">
+                and article_like_count = #{articleLikeCount}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="articleId" useGeneratedKeys="true">
+        insert into db_myblog.blog(article_title, article_first_picture, article_description, article_content,
+                                   article_create_time, article_update_time, article_visits_count,
+                                   article_comment_count, article_like_count)
+        values (#{articleTitle}, #{articleFirstPicture}, #{articleDescription}, #{articleContent}, #{articleCreateTime},
+                #{articleUpdateTime}, #{articleVisitsCount}, #{articleCommentCount}, #{articleLikeCount})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="articleId" useGeneratedKeys="true">
+        insert into db_myblog.blog(article_title, article_first_picture, article_description, article_content,
+        article_create_time, article_update_time, article_visits_count, article_comment_count, article_like_count)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.articleTitle}, #{entity.articleFirstPicture}, #{entity.articleDescription},
+            #{entity.articleContent}, #{entity.articleCreateTime}, #{entity.articleUpdateTime},
+            #{entity.articleVisitsCount}, #{entity.articleCommentCount}, #{entity.articleLikeCount})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="articleId" useGeneratedKeys="true">
+        insert into db_myblog.blog(article_title, article_first_picture, article_description, article_content,
+        article_create_time, article_update_time, article_visits_count, article_comment_count, article_like_count)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.articleTitle}, #{entity.articleFirstPicture}, #{entity.articleDescription},
+            #{entity.articleContent}, #{entity.articleCreateTime}, #{entity.articleUpdateTime},
+            #{entity.articleVisitsCount}, #{entity.articleCommentCount}, #{entity.articleLikeCount})
+        </foreach>
+        on duplicate key update
+        article_title = values(article_title) , article_first_picture = values(article_first_picture) ,
+        article_description = values(article_description) , article_content = values(article_content) ,
+        article_create_time = values(article_create_time) , article_update_time = values(article_update_time) ,
+        article_visits_count = values(article_visits_count) , article_comment_count = values(article_comment_count) ,
+        article_like_count = values(article_like_count)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update db_myblog.blog
+        <set>
+            <if test="articleTitle != null and articleTitle != ''">
+                article_title = #{articleTitle},
+            </if>
+            <if test="articleFirstPicture != null and articleFirstPicture != ''">
+                article_first_picture = #{articleFirstPicture},
+            </if>
+            <if test="articleDescription != null and articleDescription != ''">
+                article_description = #{articleDescription},
+            </if>
+            <if test="articleContent != null and articleContent != ''">
+                article_content = #{articleContent},
+            </if>
+            <if test="articleCreateTime != null">
+                article_create_time = #{articleCreateTime},
+            </if>
+            <if test="articleUpdateTime != null">
+                article_update_time = #{articleUpdateTime},
+            </if>
+            <if test="articleVisitsCount != null">
+                article_visits_count = #{articleVisitsCount},
+            </if>
+            <if test="articleCommentCount != null">
+                article_comment_count = #{articleCommentCount},
+            </if>
+            <if test="articleLikeCount != null">
+                article_like_count = #{articleLikeCount},
+            </if>
+        </set>
+        where article_id = #{articleId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from db_myblog.blog
+        where article_id = #{articleId}
+    </delete>
+
+</mapper>
+
