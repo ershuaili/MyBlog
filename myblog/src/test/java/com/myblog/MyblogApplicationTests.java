@@ -8,6 +8,12 @@ class MyblogApplicationTests {
 
     @Test
     void contextLoads() {
+        boolean a = true, b = false;
+        if (a || b) {
+            System.out.println("真");
+        } else {
+            System.out.println("假");
+        }
     }
 
 }

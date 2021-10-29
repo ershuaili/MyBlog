@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <!--全局头部导航栏-->
-    <nav-menu/>
-    <!-- 主体部分 -->
-    <div class="main">
-      <div class="background"></div>
-      <router-view/>
-    </div>
+  <!--背景-->
+  <div class="background"></div>
+  <!--全局头部导航栏-->
+  <nav-menu/>
+  <!-- 主体部分 -->
+  <div class="main">
+    <router-view/>
   </div>
 </template>
 
@@ -20,18 +19,16 @@ export default {
 </script>
 
 <style>
-body {
-  margin-top: 50px;
-}
-
 .background {
   background: url("../assets/background.jpg");
   width: 100%;
-  /*/ / 大小设置为100 % */
   height: 100%;
-  /*/ / 大小设置为100 % */
-  position: fixed;
   background-size: 100% 100%;
+  position: fixed;
   z-index: -1024;
+}
+
+.main {
+  padding-top: 1px;
 }
 </style>

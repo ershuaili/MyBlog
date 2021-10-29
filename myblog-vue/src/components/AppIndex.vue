@@ -19,7 +19,6 @@ export default {
 
 <style>
 .index {
-  padding-top: 1px;
   padding-bottom: 30px;
 }
 </style>

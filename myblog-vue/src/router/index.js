@@ -18,28 +18,42 @@ const routes = [
             {
                 path: '/index',
                 name: 'AppIndex',
-                component: () => import('../components/AppIndex.vue')
+                component: () => import('../components/AppIndex.vue'),
+                meta: {title: '帅の博客'},
             },
             {
                 path: '/type',
                 name: 'Type',
-                component: () => import('../components/Type.vue')
+                component: () => import('../components/Type.vue'),
+                meta: {title: '博客分类'},
             },
             {
                 path: '/message',
                 name: 'Message',
-                component: () => import('../components/Message.vue')
+                component: () => import('../components/Message.vue'),
+                meta: {title: '留言板'},
             },
             {
                 path: '/picture',
                 name: 'Picture',
-                component: () => import('../components/Picture.vue')
+                component: () => import('../components/Picture.vue'),
+                meta: {title: '照片墙'},
             },
             {
                 path: '/about',
                 name: 'About',
-                component: () => import('../components/About.vue')
-            }
+                component: () => import('../components/About.vue'),
+                meta: {title: '关于我'},
+            },
+            {
+                path: '/blog/:id',
+                name: 'Blog',
+                component: () => import('../components/Blog.vue'),
+                meta: {title: '博客详情'},
+                props($route) {
+                    return {title: $route.params.title}
+                }
+            },
         ]
 
     },
@@ -47,13 +61,15 @@ const routes = [
         // 登录界面
         path: '/login',
         name: 'Login',
-        component: () => import('../views/Login.vue')
+        component: () => import('../views/Login.vue'),
+        meta: {title: '用户登录'},
     },
     {
         // 注册界面
         path: '/register',
         name: 'Register',
-        component: () => import('../views/Register.vue')
+        component: () => import('../views/Register.vue'),
+        meta: {title: '用户注册'},
     },
 ];
 
@@ -62,6 +78,11 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+// 更新页面标题
+router.beforeEach((to, from, next) => {
+    to.meta.title && (document.title = to.meta.title);
+    next()
+});
 
 // 暴露这个路由
 export default router

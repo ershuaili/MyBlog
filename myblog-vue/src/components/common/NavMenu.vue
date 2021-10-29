@@ -1,11 +1,16 @@
 <template>
   <div>
+    <!--进度条-->
     <div id="reading-progress-bar" style="width:0"></div>
-    <div class="nav-bar">
-      <router-link v-for="(item,index) in navList" :key="index" :to="item.name" active-class="nav-menu-active"
-                   class="nav-menu">
-        {{ item.navItem }}
-      </router-link>
+    <!--导航栏-->
+    <div v-if="nav">
+      <div class="top"></div>
+      <div class="nav-bar">
+        <router-link v-for="(item,index) in navList" :key="index" :to="item.name" active-class="nav-menu-active"
+                     class="nav-menu">
+          {{ item.navItem }}
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -21,15 +26,21 @@ export default {
         {name: '/picture', navItem: '照片墙'},
         {name: '/about', navItem: '关于我'}
       ],
+      nav: '',
     }
   },
   // 组件创建完成
-  created() {
-    //监听鼠标滚动事件
-    window.addEventListener('mousewheel', this.handleScroll, false);
+  mounted() {
+    //监听页面滚动事件
+    window.addEventListener('scroll', this.handleScroll, true);
+    this.Switching();
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法 判断页面大小或路径变化
+    '$route': 'Switching'
   },
   methods: {
-    // 鼠标滚动事件
+    // 滚动条方法  页面滚动后执行
     handleScroll() {
       // 页面滚动距顶部距离
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
@@ -37,13 +48,23 @@ export default {
       let c = scrollTop / (document.body.scrollHeight - document.documentElement.clientHeight) * 100
       c += "%";
       document.getElementById("reading-progress-bar").style.width = String(c);
-    }
+    },
+
+    // 判断页面大小自适应方法
+    Switching() {
+      let w = document.documentElement.clientWidth || document.body.clientWidth
+      this.nav = !(w <= 796 || this.$route.path.slice(0, 5) === "/blog");
+    },
   },
 }
 </script>
 
 <style scoped>
-/* 进度条 */
+.top {
+  padding-top: 50px
+}
+
+/*!* 进度条 *!*/
 #reading-progress-bar {
   position: fixed;
   top: 0;
@@ -60,6 +81,7 @@ export default {
   width: 100%;
   background: rgba(0, 0, 0, 0.8);
   text-align: center;
+  z-index: 1023;
 }
 
 /* 导航栏按钮 */
@@ -80,4 +102,9 @@ export default {
   margin: 20px;
 }
 
+/*@media screen and (max-width: 500px) {*/
+/*  .nav-bar {*/
+/*    width: 0;*/
+/*  }*/
+/*}*/
 </style>

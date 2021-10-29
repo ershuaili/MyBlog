@@ -39,4 +39,3 @@
         from db_myblog.blog
     </select>
 </mapper>
-
