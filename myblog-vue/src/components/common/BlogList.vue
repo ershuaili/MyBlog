@@ -1,15 +1,15 @@
 <template>
-  <div v-for="(item,index) in blogs" :key="index" class="blog-list">
+  <div v-for="(item,index) in blogs" :key="index" class="blog-list" @click="toAbout(item.articleId)">
     <div class="blogs-left">
       <!--博客标题-->
-      <h1>{{ item.articleTitle }}</h1>
+      <h2>{{ item.articleTitle }}</h2>
       <!--博客描述-->
       <p>{{ item.articleDescription }}</p>
       <!--图标-->
       <div class="blogs-left-icon">
         <img alt="" src="../../assets/svg/calendar.svg">{{ item.articleCreateTime }}&nbsp;
         <img alt="" src="../../assets/svg/eye.svg">{{ item.articleVisitsCount }}&nbsp;
-        <img alt="" src="../../assets/svg/message.svg">{{ item.articleCommentCount }}
+        <img alt="" src="../../assets/svg/comment.svg">{{ item.articleCommentCount }}
       </div>
     </div>
     <div class="blogs-right">
@@ -100,5 +100,36 @@ img {
   z-index: 1;
   vertical-align: middle;
   border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .blog-list {
+    background-color: rgb(255, 255, 255, 0.7);
+    width: 90%;
+    height: 150px;
+    border-radius: 5px;
+    clear: both;
+    padding-left: 0;
+  }
+
+  .blogs-left {
+    float: left;
+    width: 100%;
+    height: 150px;
+  }
+
+  .blogs-left-icon {
+    width: 90%;
+    height: 30px;
+    margin-left: 0;
+  }
+
+  .blogs-left-icon > img {
+    width: 20px;
+  }
+
+  .blogs-right {
+    width: 0;
+  }
 }
 </style>
