@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c93a6"],{"57f4":function(n,e,c){"use strict";c.r(e);var t=c("7a23");function o(n,e,c,o,r,a){return Object(t["openBlock"])(),Object(t["createElementBlock"])("h1",null,"照片墙")}var r={name:"Picture"},a=c("6b0d"),u=c.n(a);const d=u()(r,[["render",o]]);e["default"]=d}}]);
-//# sourceMappingURL=chunk-2d0c93a6.938ec23d.js.map

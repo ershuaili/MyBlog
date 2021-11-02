@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0af8b9"],{"0f7d":function(e,n,c){"use strict";c.r(n);var t=c("7a23");function a(e,n,c,a,o,r){return Object(t["openBlock"])(),Object(t["createElementBlock"])("h1",null,"留言板")}var o={name:"Message"},r=c("6b0d"),s=c.n(r);const u=s()(o,[["render",a]]);n["default"]=u}}]);
-//# sourceMappingURL=chunk-2d0af8b9.57968f65.js.map
