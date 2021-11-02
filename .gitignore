@@ -31,7 +31,6 @@ build/
 
 .DS_Store
 myblog-vue/node_modules
-/dist
 
 
 # local env files
