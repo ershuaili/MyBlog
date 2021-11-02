@@ -1,19 +1,18 @@
 package com.myblog;
 
+import com.myblog.mapper.PictureMapper;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class MyblogApplicationTests {
+    @Autowired
+    private PictureMapper pictureService;
 
     @Test
     void contextLoads() {
-        boolean a = true, b = false;
-        if (a || b) {
-            System.out.println("真");
-        } else {
-            System.out.println("假");
-        }
+        System.out.println(pictureService.queryAll());
     }
 
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myblog.mapper.PictureMapper">
+
+    <resultMap type="com.myblog.entity.Picture" id="PictureMap">
+        <result property="pictureId" column="picture_id" jdbcType="INTEGER"/>
+        <result property="pictureAddress" column="picture_address" jdbcType="VARCHAR"/>
+        <result property="pictureDescription" column="picture_description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PictureMap">
+        select picture_id,
+               picture_address,
+               picture_description
+        from db_myblog.picture
+        where picture_id = #{pictureId}
+    </select>
+
+    <!--查询所有实体-->
+    <select id="queryAll" resultMap="PictureMap">
+        select picture_id,
+               picture_address,
+               picture_description
+        from db_myblog.picture
+    </select>
+
+</mapper>
+

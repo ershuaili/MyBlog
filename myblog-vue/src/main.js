@@ -7,7 +7,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 // 引入axios
 import axios from 'axios'
-// 设置反向代理，前端请求默认发送到 http://localhost:8899
-axios.defaults.baseURL = 'http://192.168.43.251:8899'
+// 设置反向代理，前端请求默认发送到 http://localhost:8899/api
+axios.defaults.baseURL = 'http://localhost:8899'
 
 createApp(App).use(router).use(store).use(ElementPlus).mount('#app')
