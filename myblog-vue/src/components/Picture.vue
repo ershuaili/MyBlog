@@ -1,6 +1,9 @@
 <template>
-  <div id="box" class="box">
-    <img v-for="(item,index) in picture" :key="index" alt="" class="pic" v-bind:src="item.pictureAddress">
+  <div class="box">
+    <div v-for="(item,index) in picture" :key="index" class="picture">
+      <img alt="" height="200" v-bind:src="item.pictureAddress" width="300">
+      <div class="mask">{{ item.pictureDescription }}</div>
+    </div>
   </div>
 </template>
 
@@ -33,31 +36,50 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
+
+div.img img {
+  width: 100%;
+  height: auto;
 }
 
-.box {
-  width: 90%;
-  height: 100%;
-  margin: 60px auto;
+* {
+  box-sizing: border-box;
+}
+
+.picture {
+  padding: 0 6px;
+  float: left;
+  width: 19.99999%;
   position: relative;
 }
 
-.box img {
-  padding: 10px 10px 15px;
-  background: white;
-  border: 1px solid #ddd;
-  box-shadow: 1px 1px 2px rgba(50, 50, 50, 0.4);
+.mask {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  background: rgba(101, 101, 101, 0.6);
+  color: #ffffff;
+  opacity: 0;
+  line-height: 300px;
 }
 
-.pic {
-  width: 230px;
-  margin-right: 1%;
+.picture:hover .mask {
+  opacity: 1;
+  cursor: default;
 }
 
-.box > img:hover {
-  opacity: 0.6;
+@media only screen and (max-width: 700px) {
+  .picture {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .picture {
+    width: 100%;
+  }
 }
 </style>
