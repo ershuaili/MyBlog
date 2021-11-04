@@ -56,7 +56,7 @@ div.img img {
 .mask {
   position: absolute;
   text-align: center;
-  width: 100%;
+  width: 300px;
   height: 100%;
   bottom: 0;
   background: rgba(101, 101, 101, 0.6);
@@ -80,6 +80,15 @@ div.img img {
 @media only screen and (max-width: 500px) {
   .picture {
     width: 100%;
+  }
+
+  .mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto
   }
 }
 </style>

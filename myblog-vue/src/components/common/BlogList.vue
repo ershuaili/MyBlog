@@ -102,34 +102,4 @@ img {
   border-radius: 5px;
 }
 
-@media screen and (max-width: 768px) {
-  .blog-list {
-    background-color: rgb(255, 255, 255, 0.7);
-    width: 90%;
-    height: 150px;
-    border-radius: 5px;
-    clear: both;
-    padding-left: 0;
-  }
-
-  .blogs-left {
-    float: left;
-    width: 100%;
-    height: 150px;
-  }
-
-  .blogs-left-icon {
-    width: 90%;
-    height: 30px;
-    margin-left: 0;
-  }
-
-  .blogs-left-icon > img {
-    width: 20px;
-  }
-
-  .blogs-right {
-    width: 0;
-  }
-}
 </style>
