@@ -23,18 +23,34 @@
         <hr/>
         <!--个人标签-->
         <div class="label_personal">
-          <div class="tag">标签1</div>
-          <div class="tag">标签2</div>
-          <div class="tag">标签3</div>
+          <div class="tag tag_left">标签1</div>
+          <div class="tag tag_left">标签2</div>
+          <div class="tag tag_left">标签3</div>
         </div>
         <hr/>
         <!--技术标签-->
         <div class="label_technology">
           <div class="tag tag_right">标签1</div>
+          <div class="tag tag_right">标签2</div>
+          <div class="tag tag_right">向右标签3</div>
+          <div class="tag tag_right">向右标签4再来一个</div>
         </div>
         <hr/>
         <!--链接-->
-        <div class="link"></div>
+        <div class="link">
+          <a href="https://github.com/ershuaili" target="_blank">
+            <img alt="" src="../assets/svg/github.svg">
+          </a>
+          <a href="http://data.shuaiblog.xyz/wechat.png" target="_blank">
+            <img alt="" src="../assets/svg/wechat.svg">
+          </a>
+          <a href="http://data.shuaiblog.xyz/qq.png" target="_blank">
+            <img alt="" src="../assets/svg/qq.svg">
+          </a>
+          <a href="" target="_blank">
+            <img alt="" src="../assets/svg/email.svg">
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -44,13 +60,7 @@
 export default {
   name: 'About',
   components: {},
-  methods: {
-    toIndex() {
-      this.$router.push({
-        name: 'AppIndex',
-      })
-    },
-  }
+  methods: {},
 }
 </script>
 
@@ -92,44 +102,78 @@ export default {
   height: 630px;
   width: auto;
   border-radius: 15px;
+  position: relative;
 }
 
 /* 空心气泡标签 */
 .tag {
   width: auto;
-  height: 25px;
-  line-height: 25px;
+  height: 35px;
+  line-height: 35px;
   text-align: center;
   position: relative;
-  border-radius: 5px;
+  border-radius: 9px;
   border: 2px solid teal;
   display: inline-block;
-  margin: 20px auto 20px 10px;
-  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 20px auto 20px 20px;
 }
 
-.tag::before {
+/* 箭头向左 */
+.tag_left::before,
+.tag_left::after {
   content: '';
   position: absolute;
   width: 0;
   height: 0;
   top: 7px;
-  left: -15px;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
+  left: -16px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
   border-right: 15px solid teal;
 }
 
-.tag::after {
+.tag_left::after {
+  left: -13px;
+  border-right: 15px solid #fff;
+}
+
+/* 箭头向右 */
+.tag_right::before,
+.tag_right::after {
   content: '';
   position: absolute;
   width: 0;
   height: 0;
-  top: 7px;
-  left: -13px;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-right: 15px solid #fff;
+  top: 8px;
+  right: -16px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid teal;
+}
+
+.tag_right::after {
+  right: -13px;
+  border-left: 15px solid #fff;
+}
+
+
+/*****链接*****/
+.link {
+  position: absolute;
+  height: 50px;
+  bottom: 10px;
+  left: 95px;
+}
+
+.link > a > img {
+  width: 20px;
+  padding: 10px;
+  margin: 10px;
+  background: rgba(10, 10, 10, 0.5);
+  border-radius: 30px;
+  position: relative;
 }
 
 /***** 移动端配适 *****/
