@@ -8,7 +8,6 @@
     </div>
     <!--右侧简介-->
     <div class="comment">
-      <div class="details">
         <!--头部标签-->
         <div class="head" style="text-align: center;">
           <h1>关于我</h1>
@@ -16,25 +15,26 @@
         <hr/>
         <!--文字描述-->
         <div class="introduce">
-          <p>一些测试文字发放大 发仨发发呆sa法法师防守打法发发发电房a</p>
-          <br/>
-          <p>一些测试文字发放大 发仨发发呆sa法法师防守打法发发发电房a</p>
+          <p>Hi，我是快乐二狗子，欢迎来到我的博客，</p>
+          <p>一些测试文字</p>
         </div>
         <hr/>
         <!--个人标签-->
-        <div class="label_personal">
-          <div class="tag tag_left">标签1</div>
-          <div class="tag tag_left">标签2</div>
-          <div class="tag tag_left">标签3</div>
-        </div>
+      <div class="label_personal">
+        <div class="tag tag_left">社交牛杂症</div>
+        <div class="tag tag_left">喜欢纸片人</div>
+        <div class="tag tag_left">黑苹果折腾党</div>
+        <div class="tag tag_left">可能是个技术宅</div>
+      </div>
         <hr/>
         <!--技术标签-->
-        <div class="label_technology">
-          <div class="tag tag_right">标签1</div>
-          <div class="tag tag_right">标签2</div>
-          <div class="tag tag_right">向右标签3</div>
-          <div class="tag tag_right">向右标签4再来一个</div>
-        </div>
+      <div class="label_technology">
+        <div class="tag tag_right">Java</div>
+        <div class="tag tag_right">Linux</div>
+        <div class="tag tag_right">vue</div>
+        <div class="tag tag_right">MySQL</div>
+        <div class="tag tag_right">Docker</div>
+      </div>
         <hr/>
         <!--链接-->
         <div class="link">
@@ -49,9 +49,9 @@
           </a>
           <a href="" target="_blank">
             <img alt="" src="../assets/svg/email.svg">
+            <!--<span>15896572022@163.com</span>-->
           </a>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -65,13 +65,13 @@ export default {
 </script>
 
 <style>
+/*左侧图片*/
 .picture {
   width: 70%;
   height: 100%;
   display: inline-block;
   float: left;
 }
-
 .img {
   background-color: #FFFFFF;
   width: 960px;
@@ -80,7 +80,6 @@ export default {
   margin: 10px 30px 30px;
   border-radius: 15px;
 }
-
 .img > img {
   height: 100%;
   width: 100%;
@@ -89,21 +88,36 @@ export default {
   border-radius: 10px;
 }
 
+/*右侧介绍*/
 .comment {
-  width: 30%;
+  width: 27%;
   float: left;
   display: inline-block;
-}
-
-.details {
   background-color: #FFFFFF;
   margin: 10PX;
   padding: 10px;
   height: 630px;
-  width: auto;
   border-radius: 15px;
   position: relative;
 }
+
+.head {
+  height: 40px;
+  font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+}
+
+.introduce {
+  height: 240px;
+}
+
+.label_personal {
+  height: 100px;
+}
+
+.label_technology {
+  height: 100px;
+}
+
 
 /* 空心气泡标签 */
 .tag {
@@ -117,10 +131,8 @@ export default {
   display: inline-block;
   padding-left: 20px;
   padding-right: 20px;
-  margin: 20px auto 20px 20px;
+  margin: 5px auto 5px 20px;
 }
-
-/* 箭头向左 */
 .tag_left::before,
 .tag_left::after {
   content: '';
@@ -133,13 +145,11 @@ export default {
   border-bottom: 10px solid transparent;
   border-right: 15px solid teal;
 }
-
 .tag_left::after {
   left: -13px;
   border-right: 15px solid #fff;
 }
 
-/* 箭头向右 */
 .tag_right::before,
 .tag_right::after {
   content: '';
@@ -152,7 +162,6 @@ export default {
   border-bottom: 10px solid transparent;
   border-left: 15px solid teal;
 }
-
 .tag_right::after {
   right: -13px;
   border-left: 15px solid #fff;
@@ -166,7 +175,6 @@ export default {
   bottom: 10px;
   left: 95px;
 }
-
 .link > a > img {
   width: 20px;
   padding: 10px;
