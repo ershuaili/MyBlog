@@ -16,6 +16,7 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
     <dependencies>
         <!--springboot-security-->
         <dependency>
@@ -27,22 +28,28 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--springboot-->
+        <!--mybatis-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.2.0</version>
         </dependency>
-        <!--lombok-->
+        <!--lombok 简化插件-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        <!--mysql-->
+        <!--mysql 数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <!--jwt-->
+        <dependency>
+            <groupId>com.10duke.client.jwt</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <!--springboot-test-->
         <dependency>
