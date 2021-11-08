@@ -26,7 +26,7 @@
     </select>
 
     <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="UserMap">
+    <select id="queryUserByNickname" resultMap="UserMap">
         select user_id,
                user_nickname,
                user_email,
@@ -35,102 +35,7 @@
                user_create_time,
                user_rights
         from db_myblog.user
-        limit #{offset}, #{limit}
+        where user_nickname = #{userNickname}
     </select>
-
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="UserMap">
-        select
-        user_id, user_nickname, user_email, user_password, user_head_portrait, user_create_time, user_rights
-        from db_myblog.user
-        <where>
-            <if test="userId != null">
-                and user_id = #{userId}
-            </if>
-            <if test="userNickname != null and userNickname != ''">
-                and user_nickname = #{userNickname}
-            </if>
-            <if test="userEmail != null and userEmail != ''">
-                and user_email = #{userEmail}
-            </if>
-            <if test="userPassword != null and userPassword != ''">
-                and user_password = #{userPassword}
-            </if>
-            <if test="userHeadPortrait != null and userHeadPortrait != ''">
-                and user_head_portrait = #{userHeadPortrait}
-            </if>
-            <if test="userCreateTime != null">
-                and user_create_time = #{userCreateTime}
-            </if>
-            <if test="userRights != null and userRights != ''">
-                and user_rights = #{userRights}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into db_myblog.user(user_nickname, user_email, user_password, user_head_portrait, user_create_time,
-                                   user_rights)
-        values (#{userNickname}, #{userEmail}, #{userPassword}, #{userHeadPortrait}, #{userCreateTime}, #{userRights})
-    </insert>
-
-    <insert id="insertBatch" keyProperty="userId" useGeneratedKeys="true">
-        insert into db_myblog.user(user_nickname, user_email, user_password, user_head_portrait, user_create_time,
-        user_rights)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.userNickname}, #{entity.userEmail}, #{entity.userPassword}, #{entity.userHeadPortrait},
-            #{entity.userCreateTime}, #{entity.userRights})
-        </foreach>
-    </insert>
-
-    <insert id="insertOrUpdateBatch" keyProperty="userId" useGeneratedKeys="true">
-        insert into db_myblog.user(user_nickname, user_email, user_password, user_head_portrait, user_create_time,
-        user_rights)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.userNickname}, #{entity.userEmail}, #{entity.userPassword}, #{entity.userHeadPortrait},
-            #{entity.userCreateTime}, #{entity.userRights})
-        </foreach>
-        on duplicate key update
-        user_nickname = values(user_nickname) , user_email = values(user_email) , user_password = values(user_password)
-        , user_head_portrait = values(user_head_portrait) , user_create_time = values(user_create_time) , user_rights =
-        values(user_rights)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update db_myblog.user
-        <set>
-            <if test="userNickname != null and userNickname != ''">
-                user_nickname = #{userNickname},
-            </if>
-            <if test="userEmail != null and userEmail != ''">
-                user_email = #{userEmail},
-            </if>
-            <if test="userPassword != null and userPassword != ''">
-                user_password = #{userPassword},
-            </if>
-            <if test="userHeadPortrait != null and userHeadPortrait != ''">
-                user_head_portrait = #{userHeadPortrait},
-            </if>
-            <if test="userCreateTime != null">
-                user_create_time = #{userCreateTime},
-            </if>
-            <if test="userRights != null and userRights != ''">
-                user_rights = #{userRights},
-            </if>
-        </set>
-        where user_id = #{userId}
-    </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete
-        from db_myblog.user
-        where user_id = #{userId}
-    </delete>
-
 </mapper>
 

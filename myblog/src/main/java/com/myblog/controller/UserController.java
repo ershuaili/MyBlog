@@ -3,9 +3,7 @@ package com.myblog.controller;
 import com.myblog.entity.User;
 import com.myblog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * (User)表控制层
@@ -31,6 +29,19 @@ public class UserController {
     @GetMapping("selectOne")
     public User selectOne(Long id) {
         return this.userService.queryById(id);
+    }
+
+    @PostMapping("/login")
+    @CrossOrigin
+    public String login(User user) {
+        System.out.println(user);
+        User userByNickname = userService.queryUserByNickname(user.getUserNickname());
+        System.out.println(userByNickname);
+        if (userByNickname != null) {
+            return "200";
+        }else {
+            return "400";
+        }
     }
 
 }

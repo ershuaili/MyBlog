@@ -61,14 +61,14 @@ const routes = [
         // 登录界面
         path: '/login',
         name: 'Login',
-        component: () => import('../views/home/login/Login.vue'),
+        component: () => import('../views/login/Login.vue'),
         meta: {title: '用户登录'},
     },
     {
         // 注册界面
         path: '/register',
         name: 'Register',
-        component: () => import('../views/home/login/Register.vue'),
+        component: () => import('../views/login/Register.vue'),
         meta: {title: '用户注册'},
     },
 ];
