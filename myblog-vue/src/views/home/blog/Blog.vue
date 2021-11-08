@@ -30,7 +30,7 @@ export default {
   },
 
   created() {
-    axios.get('/blog/selectOne?id=' + this.$route.params.id).then(successResponse => {
+    axios.get('/blog/selectOne?id=' + this.$route.query.id).then(successResponse => {
       this.blog = successResponse.data;
       document.title = successResponse.data.articleTitle
     }).catch(function (error) {

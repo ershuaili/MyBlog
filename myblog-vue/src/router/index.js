@@ -46,7 +46,7 @@ const routes = [
                 meta: {title: '关于我'},
             },
             {
-                path: '/blog/:id',
+                path: '/blog',
                 name: 'Blog',
                 component: () => import('../views/home/blog/Blog.vue'),
                 meta: {title: '博客详情'},
