@@ -1,3 +1,11 @@
 module.exports = {
-    publicPath: './'
+    publicPath: './',
+    configureWebpack: {
+        resolve: {
+            alias: {
+                'assets': '@/assets',
+                'components': '@/components',
+            }
+        }
+    }
 }

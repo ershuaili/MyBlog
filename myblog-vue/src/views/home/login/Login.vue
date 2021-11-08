@@ -1,10 +1,7 @@
 <template>
   <body id="poster">
-  <el-form class="login-container" label-position="left"
-           label-width="0px">
-    <h3 class="login_title">欢迎注册</h3>
-    <span>已有账号?</span>
-    <router-link to="to/"> 登录</router-link>
+  <el-form class="login-container" label-position="left" label-width="0px">
+    <h3 class="login_title">系统登录</h3>
     <el-form-item>
       <el-input v-model="loginForm.username" auto-complete="off" placeholder="账号" type="text"></el-input>
     </el-form-item>
@@ -12,8 +9,8 @@
       <el-input v-model="loginForm.password" auto-complete="off" placeholder="密码" type="password"></el-input>
     </el-form-item>
     <el-checkbox label="记住我"></el-checkbox>
-    <el-form-item style="width: 100%">
-      <el-button style="width: 100%;background: #505458;border: none" type="primary" v-on:click="login">登录</el-button>
+    <el-form-item>
+      <el-button type="primary" v-on:click="login">登录</el-button>
     </el-form-item>
     <router-link to="to/home">忘了密码</router-link>
     <router-link style="float: right" to="to/register">注册</router-link>
@@ -44,7 +41,8 @@ export default {
       axios.post('/b', params)
           .then(successResponse => {
             if (successResponse.data === 200) {
-              this.$router.replace({path: '/home'})
+              const path = this.$route.query.redirect;
+              this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
             } else {
               alert("用户名或密码错误");
             }
@@ -57,20 +55,17 @@ export default {
 </script>
 
 <style scoped>
-body {
-  margin: 0;
-  top: 0;
-  left: 0;
-}
-
+/*整体背景*/
 #poster {
-  background: url("../assets/login-background.jpg") no-repeat center;
+  margin-top: -50px;
+  background: url("src/assets/login-background.jpg") no-repeat center;
   height: 100%;
   width: 100%;
   background-size: cover;
   position: fixed;
 }
 
+/*登录背景框*/
 .login-container {
   border-radius: 15px;
   background-clip: padding-box;
@@ -80,6 +75,12 @@ body {
   background: #fff;
   border: 1px solid #eaeaea;
   box-shadow: 0 0 25px #cac6c6;
+}
+
+.el-button {
+  width: 100%;
+  background: #505458;
+  border: none;
 }
 
 .login_title {

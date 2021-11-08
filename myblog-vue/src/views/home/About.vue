@@ -3,7 +3,7 @@
     <!--左侧图片-->
     <div class="picture">
       <div class="img">
-        <img alt="" src="../assets/background.jpg">
+        <img alt="" src="@/assets/background.jpg">
       </div>
     </div>
     <!--右侧简介-->
@@ -39,16 +39,16 @@
         <!--链接-->
         <div class="link">
           <a href="https://github.com/ershuaili" target="_blank">
-            <img alt="" src="../assets/svg/github.svg">
+            <img alt="" src="@/assets/svg/github.svg">
           </a>
           <a href="http://data.shuaiblog.xyz/wechat.png" target="_blank">
-            <img alt="" src="../assets/svg/wechat.svg">
+            <img alt="" src="@/assets/svg/wechat.svg">
           </a>
           <a href="http://data.shuaiblog.xyz/qq.png" target="_blank">
-            <img alt="" src="../assets/svg/qq.svg">
+            <img alt="" src="@/assets/svg/qq.svg">
           </a>
           <a href="" target="_blank">
-            <img alt="" src="../assets/svg/email.svg">
+            <img alt="" src="@/assets/svg/email.svg">
             <!--<span>15896572022@163.com</span>-->
           </a>
         </div>

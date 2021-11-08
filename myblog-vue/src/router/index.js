@@ -18,37 +18,37 @@ const routes = [
             {
                 path: '/index',
                 name: 'AppIndex',
-                component: () => import('../components/AppIndex.vue'),
+                component: () => import('../views/home/AppIndex.vue'),
                 meta: {title: '帅の博客'},
             },
             {
                 path: '/type',
                 name: 'Type',
-                component: () => import('../components/Type.vue'),
+                component: () => import('../views/home/Type.vue'),
                 meta: {title: '博客分类'},
             },
             {
                 path: '/message',
                 name: 'Message',
-                component: () => import('../components/Message.vue'),
+                component: () => import('../views/home/Message.vue'),
                 meta: {title: '留言板'},
             },
             {
                 path: '/picture',
                 name: 'Picture',
-                component: () => import('../components/Picture.vue'),
+                component: () => import('../views/home/Picture.vue'),
                 meta: {title: '照片墙'},
             },
             {
                 path: '/about',
                 name: 'About',
-                component: () => import('../components/About.vue'),
+                component: () => import('../views/home/About.vue'),
                 meta: {title: '关于我'},
             },
             {
                 path: '/blog/:id',
                 name: 'Blog',
-                component: () => import('../components/Blog.vue'),
+                component: () => import('../views/home/blog/Blog.vue'),
                 meta: {title: '博客详情'},
                 props($route) {
                     return {title: $route.params.title}
@@ -61,14 +61,14 @@ const routes = [
         // 登录界面
         path: '/login',
         name: 'Login',
-        component: () => import('../views/Login.vue'),
+        component: () => import('../views/home/login/Login.vue'),
         meta: {title: '用户登录'},
     },
     {
         // 注册界面
         path: '/register',
         name: 'Register',
-        component: () => import('../views/Register.vue'),
+        component: () => import('../views/home/login/Register.vue'),
         meta: {title: '用户注册'},
     },
 ];

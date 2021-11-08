@@ -1,5 +1,5 @@
 <template>
-  <div v-for="(item,index) in blogs" :key="index" class="blog-list" @click="toAbout(item.articleId)">
+  <div v-for="(item,index) in blogs" :key="index" class="blog-list" @click="toBlog(item.articleId)">
     <div class="blogs-left">
       <!--博客标题-->
       <h2>{{ item.articleTitle }}</h2>
@@ -7,15 +7,13 @@
       <p>{{ item.articleDescription }}</p>
       <!--图标-->
       <div class="blogs-left-icon">
-        <img alt="" src="../../assets/svg/calendar.svg">{{ item.articleCreateTime }}&nbsp;
-        <img alt="" src="../../assets/svg/eye.svg">{{ item.articleVisitsCount }}&nbsp;
-        <img alt="" src="../../assets/svg/comment.svg">{{ item.articleCommentCount }}
+        <img alt="" src="@/assets/svg/calendar.svg">{{ item.articleCreateTime }}&nbsp;
+        <img alt="" src="@/assets/svg/eye.svg">{{ item.articleVisitsCount }}&nbsp;
+        <img alt="" src="@/assets/svg/comment.svg">{{ item.articleCommentCount }}
       </div>
     </div>
     <div class="blogs-right">
-      <a @click="toAbout(item.articleId)">
         <img alt="" v-bind:src="item.articleFirstPicture">
-      </a>
     </div>
   </div>
 </template>
@@ -44,6 +42,7 @@ export default {
       ]
     }
   },
+  // 获取博客列表
   created() {
     axios.get('/blog/selectAll').then(successResponse => {
       this.blogs = successResponse.data;
@@ -53,7 +52,7 @@ export default {
   },
 
   methods: {
-    toAbout(id) {
+    toBlog(id) {
       console.log(id);
       this.$router.push({path: `/blog/${id}`});
     },
