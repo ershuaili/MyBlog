@@ -34,7 +34,8 @@ export default {
       // 从后端获取数据
       axios.post('/user/login', params)
           .then(successResponse => {
-            if (successResponse.data === 200) {
+            console.log(successResponse)
+            if (successResponse.data.code === 200) {
               const path = this.$route.query.redirect;
               this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
             } else {

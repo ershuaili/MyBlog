@@ -2,9 +2,6 @@ package com.myblog.mapper;
 
 import com.myblog.entity.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * (User)表数据库访问层
@@ -14,15 +11,6 @@ import java.util.List;
  */
 @Mapper
 public interface UserMapper {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param userId 主键
-     * @return 实例对象
-     */
-    User queryById(Long userId);
-
     /**
      * 查询用户通过用户名
      * @param userNickname 用户名
