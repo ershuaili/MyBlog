@@ -1,23 +1,22 @@
 <template>
   <body id="poster">
-  <el-form class="login-container" label-position="left"
-           label-width="0px">
+  <form class="login-container">
     <h3 class="login_title">欢迎注册</h3>
     <span>已有账号?</span>
     <router-link to="to/"> 登录</router-link>
-    <el-form-item>
-      <el-input v-model="loginForm.username" auto-complete="off" placeholder="账号" type="text"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-input v-model="loginForm.password" auto-complete="off" placeholder="密码" type="password"></el-input>
-    </el-form-item>
-    <el-checkbox label="记住我"></el-checkbox>
-    <el-form-item style="width: 100%">
-      <el-button style="width: 100%;background: #505458;border: none" type="primary" v-on:click="login">登录</el-button>
-    </el-form-item>
+    <form-item>
+      <input v-model="loginForm.username" autocomplete="off" placeholder="账号" type="text">
+    </form-item>
+    <form-item>
+      <input v-model="loginForm.password" autocomplete="off" placeholder="密码" type="password">
+    </form-item>
+    <checkbox label="记住我"></checkbox>
+    <form-item style="width: 100%">
+      <button style="width: 100%;background: #505458;border: none" v-on:click="login">登录</button>
+    </form-item>
     <router-link to="to/home">忘了密码</router-link>
     <router-link style="float: right" to="to/register">注册</router-link>
-  </el-form>
+  </form>
   </body>
 </template>
 

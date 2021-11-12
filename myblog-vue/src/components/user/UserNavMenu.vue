@@ -16,7 +16,7 @@
     </div>
 
     <div v-if="!nav" id="small-nav" class="small-nav">
-      <img alt="" src="../../assets/svg/list.svg" @click="navShow">
+      <img alt="" src="src/assets/svg/list.svg" @click="navShow">
       <div class="small-nav-bar">
         <router-link
             v-for="(item,index) in navList" :key="index" :to="item.name"

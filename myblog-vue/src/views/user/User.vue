@@ -10,24 +10,23 @@
 </template>
 
 <script>
-import NavMenu from "@/components/common/NavMenu";
+import NavMenu from "@/components/user/UserNavMenu";
 
 export default {
-  name: 'Home',
+  name: "User",
   components: {NavMenu}
 }
 </script>
 
-<style>
+<style scoped>
 .background {
-  background: url("../assets/background.jpg");
+  background: url("../../assets/background.jpg");
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
   position: fixed;
   z-index: -1024;
 }
-
 .main {
   padding-top: 1px;
 }
