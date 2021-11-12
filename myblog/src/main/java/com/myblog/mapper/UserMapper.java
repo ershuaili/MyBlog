@@ -4,7 +4,7 @@ import com.myblog.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * (User)表数据库访问层
+ * (MyUserDetails)表数据库访问层
  *
  * @author 李二帅
  * @date 2021-10-28 12:28:01

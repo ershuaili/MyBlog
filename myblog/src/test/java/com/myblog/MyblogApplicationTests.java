@@ -11,7 +11,6 @@ class MyblogApplicationTests {
     private UserService userService;
     @Test
     void contextLoads() {
-        System.out.println(userService.queryUserByNickname("1"));
     }
 
 }

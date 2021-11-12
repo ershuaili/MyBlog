@@ -1,18 +1,14 @@
 package com.myblog.service;
 
-import com.myblog.entity.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * (User)表服务接口
+ * (MyUserDetails)表服务接口
  *
  * @author 李二帅
  * @date 2021-10-28 12:28:01
  */
-public interface UserService {
-    /**
-     * 通过用户名获取用户信息
-     * @param userNickname 用户名
-     * @return 用户
-     */
-    User queryUserByNickname(String userNickname);
+public interface UserService extends UserDetailsService {
+
 }
+
