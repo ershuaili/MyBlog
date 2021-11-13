@@ -3,10 +3,15 @@
     <!-- 导航栏-头部 -->
     <div class="nav_head">
       <div class="head_left">
-        <img src="../../assets/background.jpg" alt="">
+        <img src="../../assets/logo.png" alt="">
         <h1>帅のBlog</h1>
       </div>
-      <div class="head_right"></div>
+      <div v-if="showMenu" class="head_right">
+        <router-link v-for="(item,index) in blogManage" :key="index" :to="item.name" active-class="blogs_menu_active"
+                     class="blogs_menu">
+          <h1>{{ item.navItem }}</h1>
+        </router-link>
+      </div>
     </div>
     <!-- 导航栏-左侧 -->
     <div class="nav_left">
@@ -30,6 +35,21 @@ export default {
         {name: '/admin/picture', navItem: '相册管理', svg: 'photo.svg'},
         {name: '/admin/users', navItem: '用户管理', svg: 'user.svg'}
       ],
+      // 博客管理
+      blogManage: [
+        {name: '/admin/blog/blogs', navItem: '博客管理'},
+        {name: '/admin/blog/write', navItem: '写博客'},
+      ],
+      // 导航栏展示
+      showMenu: 'true',
+    }
+  },
+  watch:{
+    '$route': 'showMenu1',
+  },
+  methods: {
+    showMenu1() {
+      this.showMenu = this.$route.path.slice(7, 11) === 'blog';
     }
   },
 }
@@ -75,20 +95,22 @@ export default {
   background: rgba(255, 255, 255);
   flex-grow: 1;
   box-shadow: 0 0 1px #000000;
+  display: flex;
 }
-.head_right img {
-  display: inline-block;
-  float: left;
-  padding-top: 10px;
-  padding-left: 20px;
-  width: 30px;
-  margin: 0 auto;
-}
+
 .head_right h1 {
   display: inline-block;
   float: left;
   font-size: 20px;
   padding-left: 10px;
+}
+
+.blogs_menu {
+  height: 50px;
+  margin-left: 10px;
+  overflow: hidden;
+  display: block;
+  color: #ffaaff;
 }
 
 /* 导航栏左侧 */

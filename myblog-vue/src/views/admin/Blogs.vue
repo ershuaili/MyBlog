@@ -1,10 +1,10 @@
 <template>
-  <h1>博客标签</h1>
+  <router-view/>
 </template>
 
 <script>
 export default {
-  name: "Label"
+  name: "Blogs"
 }
 </script>
 

@@ -62,14 +62,28 @@ const routes = [
             {
                 path: '/admin/blog',
                 name: 'BlogManage',
-                component: () => import('../views/admin/blog/WriteBlog.vue'),
-                meta: {title: '博客管理'},
+                component: () => import('../views/admin/Blogs.vue'),
+                redirect: '/admin/blog/blogs',
+                children:[
+                    {
+                        path: '/admin/blog/blogs',
+                        name: 'BlogsManage',
+                        component: () => import('../views/admin/blog/BlogManage.vue'),
+                        meta: {title: '博客管理'},
+                    },
+                    {
+                        path: '/admin/blog/write',
+                        name: 'DraftManage',
+                        component: () => import('../views/admin/blog/WriteBlog.vue'),
+                        meta: {title: '写博客'},
+                    },
+                ]
             },
             // 分类管理
             {
                 path: '/admin/types',
                 name: 'TypesManage',
-                component: () => import('../views/admin/type/Types.vue'),
+                component: () => import('../views/admin/Types.vue'),
                 meta: {title: '分类管理'},
             },
             // 留言管理
