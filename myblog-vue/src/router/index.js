@@ -58,12 +58,12 @@ const routes = [
         component: () => import('../views/admin/Admin.vue'),
         redirect: '/admin/users',
         children: [
-            // 用户管理
+            // 博客管理
             {
-                path: '/admin/users',
-                name: 'UsersManage',
-                component: () => import('../views/admin/Users.vue'),
-                meta: {title: '用户管理'},
+                path: '/admin/blog',
+                name: 'BlogManage',
+                component: () => import('../views/admin/blog/WriteBlog.vue'),
+                meta: {title: '博客管理'},
             },
             // 分类管理
             {
@@ -72,7 +72,7 @@ const routes = [
                 component: () => import('../views/admin/type/Types.vue'),
                 meta: {title: '分类管理'},
             },
-            // 评论管理
+            // 留言管理
             {
                 path: '/admin/message',
                 name: 'MessageManage',
@@ -83,18 +83,15 @@ const routes = [
             {
                 path: '/admin/picture',
                 name: 'PictureManage',
-                component: () => import('../views/admin/blog/Blogs'),
+                component: () => import('../views/admin/Picture.vue'),
                 meta: {title: '相册管理'},
             },
-            // 写博客
+            // 用户管理
             {
-                path: '/admin/blog',
-                name: 'BlogManage',
-                component: () => import('../views/admin/blog/WriteBlog.vue'),
-                meta: {title: '写博客'},
-                props($route) {
-                    return {title: $route.params.title}
-                }
+                path: '/admin/users',
+                name: 'UsersManage',
+                component: () => import('../views/admin/Users.vue'),
+                meta: {title: '用户管理'},
             },
         ]
     },

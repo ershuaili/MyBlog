@@ -3,7 +3,7 @@
   <form class="login-container">
     <h3 class="login_title">欢迎注册</h3>
     <span>已有账号?</span>
-    <router-link to="to/"> 登录</router-link>
+    <router-link to="/login"> 登录</router-link>
     <form-item>
       <input v-model="loginForm.username" autocomplete="off" placeholder="账号" type="text">
     </form-item>
