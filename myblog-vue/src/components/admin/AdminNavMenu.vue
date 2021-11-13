@@ -6,11 +6,13 @@
         <img src="../../assets/logo.png" alt="">
         <h1>帅のBlog</h1>
       </div>
-      <div v-if="showMenu" class="head_right">
-        <router-link v-for="(item,index) in blogManage" :key="index" :to="item.name" active-class="blogs_menu_active"
-                     class="blogs_menu">
-          <h1>{{ item.navItem }}</h1>
-        </router-link>
+      <div class="head_right">
+        <div v-if="showMenu" class="head_right">
+          <router-link v-for="(item,index) in blogManage" :key="index" :to="item.name" active-class="blogs_menu_active"
+                       class="blogs_menu">
+            <h1>{{ item.navItem }}</h1>
+          </router-link>
+        </div>
       </div>
     </div>
     <!-- 导航栏-左侧 -->
@@ -41,14 +43,22 @@ export default {
         {name: '/admin/blog/write', navItem: '写博客'},
       ],
       // 导航栏展示
-      showMenu: 'true',
+      showMenu: '',
     }
   },
   watch:{
-    '$route': 'showMenu1',
+    '$route': 'showHeadMenu',
+  },
+  mounted(){
+    if(window.name === ""){
+      this.showHeadMenu();
+      window.name = "isRefresh";
+    }else if(window.name === "isRefresh"){
+      this.showHeadMenu();
+    }
   },
   methods: {
-    showMenu1() {
+    showHeadMenu() {
       this.showMenu = this.$route.path.slice(7, 11) === 'blog';
     }
   },

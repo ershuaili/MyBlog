@@ -56,7 +56,7 @@ const routes = [
         path: '/admin',
         name: 'Admin',
         component: () => import('../views/admin/Admin.vue'),
-        redirect: '/admin/users',
+        redirect: '/admin/blog',
         children: [
             // 博客管理
             {
