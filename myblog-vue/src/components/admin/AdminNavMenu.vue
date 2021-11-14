@@ -49,6 +49,7 @@ export default {
   watch:{
     '$route': 'showHeadMenu',
   },
+  // 监听页面刷新
   mounted(){
     if(window.name === ""){
       this.showHeadMenu();

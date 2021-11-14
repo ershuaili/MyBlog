@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -50,15 +49,9 @@ public class User implements UserDetails {
      */
     private String userRights;
     /**
-     * 远程码
+     * 状态码
      */
     private String verCode;
-
-    public User(HttpServletRequest request){
-        this.userNickname = request.getParameter("username");
-        this.userPassword = request.getParameter("password");
-        this.verCode = request.getParameter("verCode");
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

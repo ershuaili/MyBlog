@@ -32,7 +32,7 @@ export default {
       params.append("userNickname", this.loginForm.username)
       params.append("userPassword", this.loginForm.password)
       // 从后端获取数据
-      axios.post('/user/login', params)
+      axios.post('/login', params)
           .then(successResponse => {
             console.log(successResponse)
             if (successResponse.data.code === 200) {

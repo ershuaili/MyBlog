@@ -1,26 +1,27 @@
 package com.myblog.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myblog.entity.User;
-import com.myblog.security.resp.ResponseResult;
-import com.myblog.security.resp.ResponseStatusCode;
 import com.myblog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * <p>描述: [SecurityConfig主要用于安全验证] </p>
- * <p>创建时间: 2021/11/08 下午 11:16 </p>
+ * <p>描述: [ security安全管理器 ] </p>
+ * <p>创建时间: 2021/11/08 下午 11:12 </p>
  *
  * @author 李二帅
  * @version v1.0
@@ -34,45 +35,88 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authenticationProvider(authenticationProvider())
+
+        http
+                .authenticationProvider(authenticationProvider())
                 .httpBasic()
-                //未登录时 , 自定义响应结果
-                .authenticationEntryPoint((request, response, ex) -> customResponse(response, ResponseStatusCode.NO_AUTHORITY, ex))
+                //未登录时，进行json格式的提示，很喜欢这种写法，不用单独写一个又一个的类
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setContentType("application/json;charset=utf-8");
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    PrintWriter out = response.getWriter();
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("code", 403);
+                    map.put("message", "未登录");
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
+                })
+
                 .and()
                 .authorizeRequests()
-                // 所有请求拦截
-                .anyRequest()
-                // 拦截特定路径下的请求
-                // .mvcMatchers("/admin/**", "/user/**")
-                .authenticated()
+                .anyRequest().authenticated() //必须授权才能范围
+
+                .and()
+                .formLogin() //使用自带的登录
+                .loginProcessingUrl("/login")
+                .permitAll()
+                //登录失败，返回json
+                .failureHandler((request, response, ex) -> {
+                    response.setContentType("application/json;charset=utf-8");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    PrintWriter out = response.getWriter();
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("code", 401);
+                    if (ex instanceof UsernameNotFoundException || ex instanceof BadCredentialsException) {
+                        map.put("message", "用户名或密码错误");
+                    } else if (ex instanceof DisabledException) {
+                        map.put("message", "账户被禁用");
+                    } else {
+                        map.put("message", "登录失败!");
+                    }
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
+                })
+                //登录成功，返回json
+                .successHandler((request, response, authentication) -> {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("code", 200);
+                    map.put("message", "登录成功");
+                    map.put("data", authentication);
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
+                })
                 .and()
                 .exceptionHandling()
-                //没有权限，自定义响应结果
-                .accessDeniedHandler((request, response, ex) -> customResponse(response, ResponseStatusCode.NO_AUTHORITY, ex))
+                //没有权限，返回json
+                .accessDeniedHandler((request, response, ex) -> {
+                    response.setContentType("application/json;charset=utf-8");
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    PrintWriter out = response.getWriter();
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("code", 403);
+                    map.put("message", "权限不足");
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
+                })
                 .and()
                 .logout()
-                //退出成功，自定义响应结果
-                .logoutSuccessHandler((request, response, authentication) -> customResponse(response, ResponseStatusCode.SUCCESS, authentication)).permitAll()
-                //异常处理(权限拒绝、登录失效等)
-                .and().exceptionHandling()
-                //匿名用户访问无权限资源时的异常处理
-                .authenticationEntryPoint((request, response, ex) -> customResponse(response, ResponseStatusCode.NO_AUTHORITY, ex));
-        http
-                .formLogin()
-                //发送Ajax请求的路径
-                .loginProcessingUrl("/login")
-                //验证失败处理
-                .failureHandler((request, response, ex) -> customResponse(response, ResponseStatusCode.LOGIN_FAILED, ex))
-                //验证用户名之后逻辑
-                .successHandler((request, response, authentication) -> {
-                    //登录请求参数封装到对象中
-                    User loginUser = new User(request);
-                    //UserDetailsService根据username查询的User
-                    User dbUser = (User) authentication.getPrincipal();
-                    BCryptPasswordEncoder bCryptPasswordEncoder = bCryptPasswordEncoder();
-                    System.out.println(bCryptPasswordEncoder.matches(loginUser.getPassword(), dbUser.getPassword()));
-                    //todo 验证用户名 密码 验证码... 这里回默认返成功
-                    customResponse(response, ResponseStatusCode.SUCCESS, authentication);
+                //退出成功，返回json
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("code", 200);
+                    map.put("message", "退出成功");
+                    map.put("data", authentication);
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.write(objectMapper.writeValueAsString(map));
+                    out.flush();
+                    out.close();
                 })
                 .permitAll();
         //开启跨域访问
@@ -93,15 +137,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean("bCryptPasswordEncoder")
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-
-    private void customResponse(HttpServletResponse response, ResponseStatusCode rsc, Object e) throws IOException {
-        response.setContentType("application/json;charset=utf-8");
-        response.setStatus(rsc.getCode());
-        PrintWriter out = response.getWriter();
-        out.write(objectMapper.writeValueAsString(new ResponseResult<>(rsc, e)));
-        out.flush();
-        out.close();
     }
 }
