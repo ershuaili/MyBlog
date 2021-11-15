@@ -4,10 +4,10 @@
       <h3 class="login_title">系统登录</h3>
       <input v-model="loginForm.username" placeholder="账号" type="text"/>
       <input v-model="loginForm.password" placeholder="密码" type="password"/>
-      <checkbox label="记住我"></checkbox>
+      <!--<checkbox label="记住我"></checkbox>-->
       <button type="button" v-on:click="login">登录</button>
-      <router-link to="to/home">忘了密码</router-link>
-      <router-link style="float: right" to="to/register">注册</router-link>
+      <!--<router-link to="home">忘了密码</router-link>-->
+      <router-link style="float: right" to="/register">注册</router-link>
     </form>
   </div>
 </template>
@@ -29,8 +29,8 @@ export default {
   methods: {
     login() {
       let params = new URLSearchParams();
-      params.append("userNickname", this.loginForm.username)
-      params.append("userPassword", this.loginForm.password)
+      params.append("username", this.loginForm.username)
+      params.append("password", this.loginForm.password)
       // 从后端获取数据
       axios.post('/login', params)
           .then(successResponse => {

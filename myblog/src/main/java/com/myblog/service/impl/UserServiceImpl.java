@@ -25,9 +25,9 @@ public class UserServiceImpl implements UserService {
         System.out.println(username);
         //todo 查询是否有此用户名
         User user  = new User();
-        user.setUserName("123");
+        user.setUserName("1");
         //todo 查询数据库中的密码
-        user.setPassword(bCryptPasswordEncoder.encode("123"));
+        user.setPassword(bCryptPasswordEncoder.encode("1"));
         //todo 查询数据库中的角色 , 必须加前缀 ROLE_
         user.setRole("ROLE_USER");
         //todo 可自定义异常进行处理
