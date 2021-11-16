@@ -47,9 +47,9 @@
         </dependency>
         <!--jwt-->
         <dependency>
-            <groupId>com.10duke.client.jwt</groupId>
+            <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>1.0.1</version>
+            <version>0.9.1</version>
         </dependency>
         <!--springboot-test-->
         <dependency>
@@ -67,5 +67,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

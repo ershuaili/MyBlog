@@ -1,4 +1,4 @@
-package com.myblog.security;
+package com.myblog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 //登录成功，返回json 200
                 .successHandler((request, response, authentication) -> {
+                    // String token = JwtUtil.generateToken(user.getUsername());
                     Map<String, Object> map = new LinkedHashMap<>();
                     map.put("code", 200);
                     map.put("message", "登录成功");
                     map.put("data", authentication);
+                    // map.put(JwtUtil.AUTHORIZATION,token);
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
                     out.write(objectMapper.writeValueAsString(map));
