@@ -2,6 +2,7 @@
   <div id="poster">
     <form class="login-container">
       <h3 class="login_title">系统登录</h3>
+      <h5>{{$route.params.message}}</h5>
       <input v-model="loginForm.username" placeholder="账号" type="text"/>
       <input v-model="loginForm.password" placeholder="密码" type="password"/>
       <!--<checkbox label="记住我"></checkbox>-->

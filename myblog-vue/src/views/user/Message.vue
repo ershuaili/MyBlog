@@ -6,9 +6,7 @@
 <script>
 export default {
   name: "Message",
-  methods:{
-
-  }
+  methods:{}
 }
 </script>
 

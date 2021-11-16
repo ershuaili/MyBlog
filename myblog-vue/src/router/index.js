@@ -57,6 +57,7 @@ const routes = [
         name: 'Admin',
         component: () => import('../views/admin/Admin.vue'),
         redirect: '/admin/blog',
+        meta: {isAuth:true},
         children: [
             // 博客管理
             {
@@ -64,7 +65,7 @@ const routes = [
                 name: 'BlogManage',
                 component: () => import('../views/admin/Blogs.vue'),
                 redirect: '/admin/blog/blogs',
-                children:[
+                children: [
                     {
                         path: '/admin/blog/blogs',
                         name: 'BlogsManage',
@@ -139,10 +140,25 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach((to,from,next) => {
+    if (to.meta.isAuth){
+        if (localStorage.getItem('user')==='1'){
+            next();
+        }else {
+            router.push({
+                name:'Login',
+                params:{message:'没有权限请登录'}
+            });
+        }
+    }else {
+        next();
+    }
+});
+
 // 更新页面标题
-router.beforeEach((to, from, next) => {
-    to.meta.title && (document.title = to.meta.title);
-    next()
+router.afterEach((to)=>{
+    document.title = to.meta.title;
 });
 
 // 暴露这个路由

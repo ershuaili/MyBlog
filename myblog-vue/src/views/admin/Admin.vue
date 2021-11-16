@@ -15,7 +15,7 @@ import AdminNavMenu from "@/components/admin/AdminNavMenu";
 
 export default {
   name: "Admin",
-  components: {AdminNavMenu}
+  components: {AdminNavMenu},
 }
 </script>
 
