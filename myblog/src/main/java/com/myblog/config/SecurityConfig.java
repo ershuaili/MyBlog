@@ -3,16 +3,26 @@ package com.myblog.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -30,6 +40,83 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ObjectMapper objectMapper;
 
+    /**
+     * 定义登陆成功返回信息，返回json 200
+     */
+    private class AjaxAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+        @Override
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("code", 200);
+                map.put("message", "登录成功");
+                map.put("data", authentication);
+                // map.put(JwtUtil.AUTHORIZATION,token);
+                response.setContentType("application/json;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.write(objectMapper.writeValueAsString(map));
+                out.flush();
+                out.close();
+        }
+    }
+    /**
+     * 定义登录失败返回信息，返回json 401
+     */
+    private class AjaxAuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
+        @Override
+        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+            response.setContentType("application/json;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            PrintWriter out = response.getWriter();
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("code", 401);
+            if (exception instanceof UsernameNotFoundException || exception instanceof BadCredentialsException) {
+                map.put("message", "用户名或密码错误");
+            } else if (exception instanceof DisabledException) {
+                map.put("message", "账户被禁用");
+            } else {
+                map.put("message", "登录失败!");
+            }
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
+        }
+    }
+    /**
+     * 定义登出成功返回信息,返回json 200
+     */
+    private class AjaxLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
+        @Override
+        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+                                    Authentication authentication) throws IOException, ServletException {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("code", 200);
+            map.put("message", "退出成功");
+            map.put("data", authentication);
+            response.setContentType("application/json;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
+        }
+    }
+    /**
+     * 定义没有权限，返回json 403
+     */
+    private class AjaxAccessFailHandler extends SimpleUrlAuthenticationFailureHandler implements AccessDeniedHandler {
+        @Override
+        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
+            response.setContentType("application/json;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            PrintWriter out = response.getWriter();
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("code", 403);
+            map.put("message", "权限不足");
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
+        }
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 认证
@@ -37,65 +124,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //自定义登录请求路径(post请求)
                 .loginProcessingUrl("/login")
                 //登录成功，返回json 200
-                .successHandler((request, response, authentication) -> {
-                    // String token = JwtUtil.generateToken(user.getUsername());
-                    Map<String, Object> map = new LinkedHashMap<>();
-                    map.put("code", 200);
-                    map.put("message", "登录成功");
-                    map.put("data", authentication);
-                    // map.put(JwtUtil.AUTHORIZATION,token);
-                    response.setContentType("application/json;charset=utf-8");
-                    PrintWriter out = response.getWriter();
-                    out.write(objectMapper.writeValueAsString(map));
-                    out.flush();
-                    out.close();
-                })
+                .successHandler(new AjaxAuthSuccessHandler())
                 //登录失败，返回json 401
-                .failureHandler((request, response, ex) -> {
-                    response.setContentType("application/json;charset=utf-8");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    PrintWriter out = response.getWriter();
-                    Map<String, Object> map = new LinkedHashMap<>();
-                    map.put("code", 401);
-                    if (ex instanceof UsernameNotFoundException || ex instanceof BadCredentialsException) {
-                        map.put("message", "用户名或密码错误");
-                    } else if (ex instanceof DisabledException) {
-                        map.put("message", "账户被禁用");
-                    } else {
-                        map.put("message", "登录失败!");
-                    }
-                    out.write(objectMapper.writeValueAsString(map));
-                    out.flush();
-                    out.close();
-                })
+                .failureHandler(new AjaxAuthFailHandler())
                 //没有权限，返回json
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler((request, response, ex) -> {
-                    response.setContentType("application/json;charset=utf-8");
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    PrintWriter out = response.getWriter();
-                    Map<String, Object> map = new LinkedHashMap<>();
-                    map.put("code", 403);
-                    map.put("message", "权限不足");
-                    out.write(objectMapper.writeValueAsString(map));
-                    out.flush();
-                    out.close();
-                })
+                .accessDeniedHandler(new AjaxAccessFailHandler())
                 //退出成功，返回json
                 .and()
                 .logout()
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    Map<String, Object> map = new LinkedHashMap<>();
-                    map.put("code", 200);
-                    map.put("message", "退出成功");
-                    map.put("data", authentication);
-                    response.setContentType("application/json;charset=utf-8");
-                    PrintWriter out = response.getWriter();
-                    out.write(objectMapper.writeValueAsString(map));
-                    out.flush();
-                    out.close();
-                })
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(new AjaxLogoutSuccessHandler())
                 .permitAll();
         // 授权
         http.authorizeRequests()
