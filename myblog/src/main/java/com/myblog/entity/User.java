@@ -48,40 +48,12 @@ public class User implements UserDetails {
      * 用户权限
      */
     private String userRights;
-    /**
-     * 状态码
-     */
-    private String verCode;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
-        auths.add(this::getRole);
+        auths.add(this::getUserRights);
         return auths;
-    }
-
-    public String getRole() {
-        return userRights;
-    }
-
-    public void setRole(String role) {
-        this.userRights = role;
-    }
-
-    public void setUserName(String username) {
-        this.userNickname = username;
-    }
-
-    public void setPassword(String password) {
-        this.userPassword = password;
-    }
-
-    public String getVerCode() {
-        return verCode;
-    }
-
-    public void setVerCode(String verCode) {
-        this.verCode = verCode;
     }
 
     @Override

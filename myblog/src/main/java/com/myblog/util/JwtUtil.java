@@ -1,6 +1,8 @@
 package com.myblog.util;
 
+import com.myblog.entity.User;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
@@ -11,6 +13,7 @@ import java.util.*;
  * @author 李二帅
  * @version v1.0
  */
+@Slf4j
 public class JwtUtil {
     /**过期时间---24 hour 60*60*24 */
     private static final int EXPIRATION_TIME = 60*60*24;
@@ -23,10 +26,10 @@ public class JwtUtil {
 
     /**
      * 签发token
-      * @param userName 用户名
+      * @param user 用户
      * @return token
      */
-    public static String generateToken(String userName,String userRights) {
+    public static String generateToken(User user) {
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
         // 设置签发时间
@@ -37,8 +40,8 @@ public class JwtUtil {
         Date time = calendar.getTime();
         // 用户自定义属性
         HashMap<String, Object> map = new LinkedHashMap<>();
-        map.put("userName", userName);
-        map.put("userRights",userRights);
+        map.put("userNickname",user.getUserNickname());
+        map.put("userRights",user.getUserRights());
         String jwt = Jwts.builder()
                 // 自定义属性 放入用户名和拥有的权限
                 .setClaims(map)
@@ -65,20 +68,25 @@ public class JwtUtil {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody();
             LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-            map.put("userName",body.get("userName").toString());
+            map.put("userNickname",body.get("userNickname").toString());
             map.put("userRights",body.get("userRights").toString());
             return map;
         }catch (ExpiredJwtException e) {
+            log.info("过期的 Jwt 异常");
             throw e;
         } catch (UnsupportedJwtException e) {
             throw e;
         } catch (MalformedJwtException e) {
+            log.info("格式错误的 Jwt 异常");
             throw e;
         } catch (SignatureException e) {
+            log.info("签名异常");
             throw e;
         } catch (IllegalArgumentException e) {
+            log.info("非法参数异常");
             throw e;
         } catch (Exception e){
+            log.info("全局异常");
             throw e;
         }
     }

@@ -1,6 +1,7 @@
 package com.myblog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,7 +20,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -36,6 +36,7 @@ import java.util.Map;
  */
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ObjectMapper objectMapper;
@@ -45,17 +46,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private class AjaxAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         @Override
-        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                Map<String, Object> map = new LinkedHashMap<>();
-                map.put("code", 200);
-                map.put("message", "登录成功");
-                map.put("data", authentication);
-                // map.put(JwtUtil.AUTHORIZATION,token);
-                response.setContentType("application/json;charset=utf-8");
-                PrintWriter out = response.getWriter();
-                out.write(objectMapper.writeValueAsString(map));
-                out.flush();
-                out.close();
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("code", 200);
+            map.put("message", "登录成功");
+            map.put("data", authentication);
+            response.setContentType("application/json;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.write(objectMapper.writeValueAsString(map));
+            out.flush();
+            out.close();
         }
     }
     /**
@@ -63,13 +63,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private class AjaxAuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
         @Override
-        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             PrintWriter out = response.getWriter();
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("code", 401);
             if (exception instanceof UsernameNotFoundException || exception instanceof BadCredentialsException) {
+                log.info("用户名或密码错误");
                 map.put("message", "用户名或密码错误");
             } else if (exception instanceof DisabledException) {
                 map.put("message", "账户被禁用");
@@ -86,8 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private class AjaxLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         @Override
-        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-                                    Authentication authentication) throws IOException, ServletException {
+        public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("code", 200);
             map.put("message", "退出成功");
@@ -104,7 +104,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private class AjaxAccessFailHandler extends SimpleUrlAuthenticationFailureHandler implements AccessDeniedHandler {
         @Override
-        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
+        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException {
+            log.info("权限不足");
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             PrintWriter out = response.getWriter();

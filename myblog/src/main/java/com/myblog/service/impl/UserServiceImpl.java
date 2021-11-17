@@ -1,41 +1,34 @@
 package com.myblog.service.impl;
 
 import com.myblog.entity.User;
+import com.myblog.mapper.UserMapper;
 import com.myblog.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
+
+import javax.annotation.Resource;
 
 /**
- * (MyUserDetails)表服务实现类
+ * <p>描述: [] </p>
+ * <p>创建时间: 2021/11/17 下午 08:37 </p>
  *
  * @author 李二帅
- * @since 2021-10-28 12:28:01
+ * @version v1.0
  */
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Resource
+    private UserMapper userMapper;
+
+    /**
+     * 查询用户通过用户名
+     *
+     * @param userNickname 用户名
+     * @return 用户实体
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println(username);
-        //todo 查询是否有此用户名
-        User user  = new User();
-        user.setUserName("1");
-        //todo 查询数据库中的密码
-        user.setPassword(bCryptPasswordEncoder.encode("1"));
-        //todo 查询数据库中的角色 , 必须加前缀 ROLE_
-        user.setRole("ROLE_USER");
-        //todo 可自定义异常进行处理
-        if (ObjectUtils.isEmpty(user)){
-            throw new RuntimeException("用户不存在");
-        }
-        System.out.println(user.getUserPassword());
-        return user;
+    public User queryUserByNickname(String userNickname) {
+        return this.userMapper.queryUserByNickname(userNickname);
     }
 
 }
