@@ -14,12 +14,38 @@
 import AdminNavMenu from "@/components/admin/AdminNavMenu";
 import axios from "axios";
 import store from "../../store/index";
+import router from "@/router";
 
 export default {
   name: "Admin",
   components: {AdminNavMenu},
+  // 管理员登录前校验
+  beforeRouteEnter: (to, from, next) => {
+    let isAdmin = false;
+    let params = new URLSearchParams();
+    params.append("token", localStorage.getItem("token"))
+    axios.post('/checkToken', params)
+        .then(successResponse => {
+          if (successResponse.data.userRights === "ADMIN") {
+            isAdmin = true;
+            next();
+          }else {
+            router.push({
+              name: 'Login',
+              params: {message: '没有权限请登录'}
+            });
+          }
+        }).catch(function (error) {
+      console.log(error);
+      router.push({
+        name: 'Login',
+        params: {message: '没有权限请登录'}
+      });
+    });
+  },
+
   methods: {},
-  created(){
+  created() {
     let params = new URLSearchParams();
     params.append("token", localStorage.getItem("token"))
     axios.post('/checkToken', params)
