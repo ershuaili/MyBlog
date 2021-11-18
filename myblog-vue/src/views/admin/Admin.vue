@@ -12,10 +12,27 @@
 
 <script>
 import AdminNavMenu from "@/components/admin/AdminNavMenu";
+import axios from "axios";
+import store from "../../store/index";
 
 export default {
   name: "Admin",
   components: {AdminNavMenu},
+  methods: {},
+  created(){
+    let params = new URLSearchParams();
+    params.append("token", localStorage.getItem("token"))
+    axios.post('/checkToken', params)
+        .then(successResponse => {
+          if (successResponse.data.userRights === "ADMIN") {
+            store.state.isAdmin = true;
+            console.log(store.state.isAdmin)
+          }
+          console.log(successResponse)
+        }).catch(function (error) {
+      console.log(error);
+    });
+  }
 }
 </script>
 

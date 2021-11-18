@@ -1,6 +1,7 @@
 package com.myblog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myblog.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,23 +35,31 @@ import java.util.Map;
  * @author 李二帅
  * @version v1.0
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
-@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ObjectMapper objectMapper;
-
     /**
      * 定义登陆成功返回信息，返回json 200
      */
     private class AjaxAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+            // 获取用户信息
+            String authority = authentication.getAuthorities().iterator().next().getAuthority();
+            String name = authentication.getName();
+            // 创建token
+            String token = JwtUtil.generateToken(authentication.getName(), authority);
+            // 返回信息
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("code", 200);
             map.put("message", "登录成功");
-            map.put("data", authentication);
+            map.put("role",authority);
+            map.put("nickname",name);
+            map.put("token",token);
+
             response.setContentType("application/json;charset=utf-8");
             PrintWriter out = response.getWriter();
             out.write(objectMapper.writeValueAsString(map));

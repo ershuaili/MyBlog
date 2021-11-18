@@ -3,7 +3,10 @@ import {createStore} from 'vuex'
 // vuex进行状态管理
 export default createStore({
     // 用于存储数据
-    state: {},
+    state: {
+        // 判断用户权限
+        isAdmin:false,
+    },
     // 用于操作数据
     mutations: {},
     // 用于相应组件中的动作

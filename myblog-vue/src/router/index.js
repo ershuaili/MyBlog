@@ -1,5 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import User from "@/views/user/User";
+import store from '../store/index'
+
 // 路由数组
 const routes = [
     // user组件作为前台展示组件
@@ -141,19 +143,23 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to,from,next) => {
-    if (to.meta.isAuth){
-        if (localStorage.getItem('user')==='1'){
-            next();
-        }else {
-            router.push({
-                name:'Login',
-                params:{message:'没有权限请登录'}
-            });
-        }
-    }else {
-        next();
-    }
+
+router.beforeEach((to, from, next) => {
+    console.log("路径判断"+to.meta.isAuth)
+    console.log("权限判断"+store.state.isAdmin)
+    // if (to.meta.isAuth) {
+    //     if (store.state.isAdmin) {
+    //         next();
+    //     } else {
+    //         router.push({
+    //             name: 'Login',
+    //             params: {message: '没有权限请登录'}
+    //         });
+    //     }
+    // } else {
+    //     next();
+    // }
+    next();
 });
 
 // 更新页面标题

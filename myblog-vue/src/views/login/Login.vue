@@ -4,7 +4,7 @@
       <h3 class="login_title">系统登录</h3>
       <h5>{{$route.params.message}}</h5>
       <input v-model="loginForm.username" placeholder="账号" type="text"/>
-      <input v-model="loginForm.password" placeholder="密码" type="password"/>
+      <input v-model="loginForm.password" placeholder="密码" type="password" autoComplete="on"/>
       <!--<checkbox label="记住我"></checkbox>-->
       <button type="button" v-on:click="login">登录</button>
       <!--<router-link to="home">忘了密码</router-link>-->
@@ -24,7 +24,6 @@ export default {
         username: '',
         password: ''
       },
-      responseResult: []
     }
   },
   methods: {
@@ -35,14 +34,22 @@ export default {
       // 从后端获取数据
       axios.post('/login', params)
           .then(successResponse => {
-            console.log(successResponse)
             if (successResponse.data.code === 200) {
-              const path = this.$route.query.redirect;
-              this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
-            } else {
+              // 向本地存储中加入token
+              localStorage.clear()
+              localStorage.setItem('token', successResponse.data.token)
+              // 判断是用户还是管理员
+              if (successResponse.data.role === "ADMIN") {
+                this.$router.push("/admin")
+              }else {
+                const path = this.$route.query.redirect;
+                this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+              }
+            } else if (successResponse.data.code === 401) {
               alert("用户名或密码错误");
             }
           }).catch(function (error) {
+        alert("用户名或密码错误");
         console.log(error);
       });
     }

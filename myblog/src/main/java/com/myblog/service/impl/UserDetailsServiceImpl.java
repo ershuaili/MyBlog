@@ -35,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userService.queryUserByNickname(username);
         if (ObjectUtils.isEmpty(user)) {
             log.info("用户不存在");
-            throw new RuntimeException("用户不存在");
+            throw new UsernameNotFoundException("用户名或密码错误");
         } else {
             return user;
         }
