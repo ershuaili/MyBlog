@@ -65,7 +65,6 @@ public class JwtUtil {
      * 校验Token
      */
     public static Map<String, Object> validateToken(String token) {
-        log.info(token);
         try {
             // parse the token.
             Map<String, Object> body = Jwts.parser()

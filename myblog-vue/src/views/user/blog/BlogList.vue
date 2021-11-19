@@ -54,8 +54,6 @@ export default {
   methods: {
     toBlog(id) {
       console.log(id);
-      // this.$router.push({path: `/blog/${id}`});
-
       let routeUrl = this.$router.resolve({
         path: "/blog",
         query: {id: id}

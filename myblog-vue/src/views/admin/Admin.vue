@@ -43,7 +43,6 @@ export default {
       });
     });
   },
-
   methods: {},
   created() {
     let params = new URLSearchParams();
@@ -52,7 +51,6 @@ export default {
         .then(successResponse => {
           if (successResponse.data.userRights === "ADMIN") {
             store.state.isAdmin = true;
-            console.log(store.state.isAdmin)
           }
           console.log(successResponse)
         }).catch(function (error) {
