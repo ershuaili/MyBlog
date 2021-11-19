@@ -37,5 +37,12 @@
         from db_myblog.user
         where user_nickname = #{userNickname}
     </select>
+
+    <!--插入用户数据-->
+    <insert id="insert">
+        insert into db_myblog.user(user_nickname, user_email, user_password, user_head_portrait,
+                                   user_create_time, user_rights)
+        VALUES (#{userNickname}, #{userEmail}, #{userPassword}, '头像', now(),'USER')
+    </insert>
 </mapper>
 

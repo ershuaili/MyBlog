@@ -142,7 +142,7 @@ const router = createRouter({
     routes
 })
 
-// 更新页面标题
+// 全局后置路由 更新页面标题
 router.afterEach((to)=>{
     document.title = to.meta.title;
 });

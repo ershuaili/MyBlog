@@ -17,5 +17,12 @@ public interface UserMapper {
      * @return 用户实体
      */
     User queryUserByNickname(String userNickname);
-}
 
+    /**
+     * 新增用户
+     *
+     * @param user 用户对象
+     * @return 影响行数
+     */
+    boolean insert(User user);
+}

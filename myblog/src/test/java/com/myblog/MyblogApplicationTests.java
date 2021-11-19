@@ -1,11 +1,15 @@
 package com.myblog;
 
+import com.myblog.entity.User;
 import com.myblog.service.UserService;
 import com.myblog.util.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @SpringBootTest
 class MyblogApplicationTests {
@@ -15,11 +19,23 @@ class MyblogApplicationTests {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Test
-    void contextLoads() {
-        // System.out.println(authentication.getAuthorities());
-        // User user = userService.queryUserByNickname("1");
-        // System.out.println(jwtUtil.generateToken("1"));
-        // System.out.println(JwtUtil.generateToken("1"));
+    void test(){
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        System.out.println(dateFormat.format(date));
+    }
+
+    @Test
+    void user(){
+        User user = new User();
+        user.setUserId(5L);
+        user.setUserNickname("111");
+        user.setUserEmail("111");
+        user.setUserPassword("123");
+        user.setUserHeadPortrait("111");
+        user.setUserCreateTime(new Date());
+        user.setUserRights("ADMIN");
+        System.out.println(userService.insert(user));
     }
 
     // 签发token

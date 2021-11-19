@@ -13,7 +13,6 @@
 <script>
 import AdminNavMenu from "@/components/admin/AdminNavMenu";
 import axios from "axios";
-import store from "../../store/index";
 import router from "@/router";
 
 export default {
@@ -24,7 +23,7 @@ export default {
     let isAdmin = false;
     let params = new URLSearchParams();
     params.append("token", localStorage.getItem("token"))
-    axios.post('/checkToken', params)
+    axios.post('/user/checkToken', params)
         .then(successResponse => {
           if (successResponse.data.userRights === "ADMIN") {
             isAdmin = true;
@@ -44,19 +43,6 @@ export default {
     });
   },
   methods: {},
-  created() {
-    let params = new URLSearchParams();
-    params.append("token", localStorage.getItem("token"))
-    axios.post('/checkToken', params)
-        .then(successResponse => {
-          if (successResponse.data.userRights === "ADMIN") {
-            store.state.isAdmin = true;
-          }
-          console.log(successResponse)
-        }).catch(function (error) {
-      console.log(error);
-    });
-  }
 }
 </script>
 
