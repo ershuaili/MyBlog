@@ -30,4 +30,8 @@ public class Message implements Serializable {
      * 留言创建时间
      */
     private Date messageCreateTime;
+    /**
+     * 关联查询用户信息
+      */
+    private User user;
 }

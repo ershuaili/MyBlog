@@ -31,6 +31,15 @@ public class MessageController {
      */
     @GetMapping("/queryMessageByLimit")
     public List<Message> queryMessageByLimit(Integer page){
-        return this.messageService.queryAllByLimit(page);
+        return messageService.queryAllByLimit(page);
+    }
+
+    /**
+     * 查询数据总数
+     * @return 数据总数
+     */
+    @GetMapping("/queryAllNumber")
+    public int queryAllNumber(){
+        return messageService.queryAllNumber();
     }
 }

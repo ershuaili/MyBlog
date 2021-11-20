@@ -7,25 +7,35 @@
         <result property="messageUserId" column="message_user_id" jdbcType="INTEGER"/>
         <result property="messageContent" column="message_content" jdbcType="VARCHAR"/>
         <result property="messageCreateTime" column="message_create_time" jdbcType="TIMESTAMP"/>
+        <association property="user" javaType="User">
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="userNickname" column="user_nickname" jdbcType="VARCHAR"/>
+            <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+            <result property="userPassword" column="user_password" jdbcType="VARCHAR"/>
+            <result property="userHeadPortrait" column="user_head_portrait" jdbcType="VARCHAR"/>
+            <result property="userCreateTime" column="user_create_time" jdbcType="TIMESTAMP"/>
+            <result property="userRights" column="user_rights" jdbcType="VARCHAR"/>
+        </association>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="MessageMap">
-        select message_id,
-               message_user_id,
-               message_content,
-               message_create_time
-        from db_myblog.message
-        where message_id = #{messageId}
+    <!--查询数据总数-->
+    <select id="queryAllNumber" resultType="int">
+        select count(message_id) from db_myblog.message
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="MessageMap">
         select message_id,
                message_user_id,
+               message_create_time,
                message_content,
-               message_create_time
-        from db_myblog.message
+               user.user_id,
+               user.user_nickname,
+               user.user_head_portrait,
+               user.user_rights
+        from db_myblog.message,
+             db_myblog.user
+        where message.message_user_id = user.user_id
         limit #{offset}, #{limit}
     </select>
 

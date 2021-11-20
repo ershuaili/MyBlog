@@ -20,14 +20,13 @@ public class MessageServiceImpl implements MessageService {
     private MessageMapper messageMapper;
 
     /**
-     * 通过ID查询单条数据
+     * 查询数据总数
      *
-     * @param messageId 主键
-     * @return 实例对象
+     * @return 数据总数
      */
     @Override
-    public Message queryById(Long messageId) {
-        return this.messageMapper.queryById(messageId);
+    public int queryAllNumber() {
+        return this.messageMapper.queryAllNumber();
     }
 
     /**

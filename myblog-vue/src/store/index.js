@@ -4,8 +4,7 @@ import {createStore} from 'vuex'
 export default createStore({
     // 用于存储数据
     state: {
-        // 判断用户权限
-        isAdmin:false,
+        length:'',
     },
     // 用于操作数据
     mutations: {},

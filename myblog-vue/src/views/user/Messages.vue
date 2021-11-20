@@ -8,7 +8,7 @@
     <!-- 评论列表 -->
     <div class="message_comments">
       <div class="message_head">
-        <span>16</span>条留言
+        <span class="number">{{length}}</span>条留言
       </div>
       <!-- 留言 -->
       <Message/>
@@ -21,10 +21,27 @@
 <script>
 import Paginate from "@/components/common/Paginate";
 import Message from "@/components/user/Message";
+import axios from "axios";
 
 export default {
   name: "Messages",
   components: {Message, Paginate},
+  data() {
+    return {
+      length:'',
+    }
+  },
+  created(){this.getLength()},
+  methods:{
+    // 获取数据总数
+    getLength(){
+      axios.get('/message/queryAllNumber').then(successResponse => {
+        this.length=successResponse.data
+      }).catch(function (error) {
+        console.log(error);
+      })
+    }
+  }
 }
 </script>
 
@@ -64,7 +81,10 @@ export default {
   float: right;
   background-color: antiquewhite;
 }
-
+.number{
+  color: #ffaaff;
+  margin: 0 15px;
+}
 /* 评论列表 */
 .message_comments {
   width: 100%;
@@ -73,4 +93,5 @@ export default {
 .message_head {
   font-size: 30px;
 }
+
 </style>

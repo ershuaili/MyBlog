@@ -48,6 +48,10 @@ public class User implements UserDetails {
      * 用户权限
      */
     private String userRights;
+    /**
+     * 用户留言
+     */
+    private List<Message> messages;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

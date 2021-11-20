@@ -11,14 +11,11 @@ import java.util.List;
  * @date 2021-10-28 12:28:00
  */
 public interface MessageService {
-
     /**
-     * 通过ID查询单条数据
-     *
-     * @param messageId 主键
-     * @return 实例对象
+     * 查询数据总数
+     * @return 数据总数
      */
-    Message queryById(Long messageId);
+    int queryAllNumber();
 
     /**
      * 分页查询数据

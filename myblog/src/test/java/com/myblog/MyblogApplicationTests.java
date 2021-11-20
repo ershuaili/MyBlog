@@ -22,7 +22,7 @@ class MyblogApplicationTests {
 
     @Test
     void test(){
-        System.out.println(messageService.queryAllByLimit(1));
+        System.out.println(messageService.queryAllNumber());
     }
 
     @Test
