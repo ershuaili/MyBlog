@@ -29,68 +29,11 @@
         limit #{offset}, #{limit}
     </select>
 
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="MessageMap">
-        select
-        message_id, message_user_id, message_content, message_create_time
-        from db_myblog.message
-        <where>
-            <if test="messageId != null">
-                and message_id = #{messageId}
-            </if>
-            <if test="messageUserId != null">
-                and message_user_id = #{messageUserId}
-            </if>
-            <if test="messageContent != null and messageContent != ''">
-                and message_content = #{messageContent}
-            </if>
-            <if test="messageCreateTime != null">
-                and message_create_time = #{messageCreateTime}
-            </if>
-        </where>
-    </select>
-
     <!--新增所有列-->
     <insert id="insert" keyProperty="messageId" useGeneratedKeys="true">
         insert into db_myblog.message(message_user_id, message_content, message_create_time)
         values (#{messageUserId}, #{messageContent}, #{messageCreateTime})
     </insert>
-
-    <insert id="insertBatch" keyProperty="messageId" useGeneratedKeys="true">
-        insert into db_myblog.message(message_user_id, message_content, message_create_time)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.messageUserId}, #{entity.messageContent}, #{entity.messageCreateTime})
-        </foreach>
-    </insert>
-
-    <insert id="insertOrUpdateBatch" keyProperty="messageId" useGeneratedKeys="true">
-        insert into db_myblog.message(message_user_id, message_content, message_create_time)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.messageUserId}, #{entity.messageContent}, #{entity.messageCreateTime})
-        </foreach>
-        on duplicate key update
-        message_user_id = values(message_user_id) , message_content = values(message_content) , message_create_time =
-        values(message_create_time)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update db_myblog.message
-        <set>
-            <if test="messageUserId != null">
-                message_user_id = #{messageUserId},
-            </if>
-            <if test="messageContent != null and messageContent != ''">
-                message_content = #{messageContent},
-            </if>
-            <if test="messageCreateTime != null">
-                message_create_time = #{messageCreateTime},
-            </if>
-        </set>
-        where message_id = #{messageId}
-    </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">

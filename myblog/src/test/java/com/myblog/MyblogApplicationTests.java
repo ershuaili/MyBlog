@@ -1,6 +1,7 @@
 package com.myblog;
 
 import com.myblog.entity.User;
+import com.myblog.service.MessageService;
 import com.myblog.service.UserService;
 import com.myblog.util.JwtUtil;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SpringBootTest
@@ -16,13 +16,13 @@ class MyblogApplicationTests {
     @Autowired
     private UserService userService;
     @Autowired
+    private MessageService messageService;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Test
     void test(){
-        Date date = new Date();
-        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-        System.out.println(dateFormat.format(date));
+        System.out.println(messageService.queryAllByLimit(1));
     }
 
     @Test

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * (Message)表控制层
  *
@@ -23,14 +25,12 @@ public class MessageController {
     private MessageService messageService;
 
     /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
+     * 分页查询数据
+     * @param page 页数
+     * @return 数据列表
      */
-    @GetMapping("selectOne")
-    public Message selectOne(Long id) {
-        return this.messageService.queryById(id);
+    @GetMapping("/queryMessageByLimit")
+    public List<Message> queryMessageByLimit(Integer page){
+        return this.messageService.queryAllByLimit(page);
     }
-
 }

@@ -3,7 +3,6 @@ package com.myblog.controller;
 import com.myblog.entity.Picture;
 import com.myblog.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +31,6 @@ public class PictureController {
      * @return 单条数据
      */
     @GetMapping("selectOne")
-    @CrossOrigin
     public Picture selectOne(Long id) {
         return this.pictureService.queryById(id);
     }
@@ -43,7 +41,6 @@ public class PictureController {
      * @return 所有照片对象
      */
     @GetMapping("selectAll")
-    @CrossOrigin
     public List<Picture> selectAll() {
         return this.pictureService.queryAll();
     }

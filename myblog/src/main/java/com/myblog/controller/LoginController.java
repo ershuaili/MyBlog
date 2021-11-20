@@ -3,7 +3,6 @@ package com.myblog.controller;
 import com.myblog.entity.User;
 import com.myblog.service.UserService;
 import com.myblog.util.JwtUtil;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +29,6 @@ public class LoginController {
      * @return 用户信息
      */
     @PostMapping("/checkToken")
-    @CrossOrigin
     public Map<String, Object> validateToken(String token) {
         System.out.println(token);
         return JwtUtil.validateToken(token);
@@ -42,7 +40,6 @@ public class LoginController {
      * @return 是否成功
      */
     @PostMapping("/insert")
-    @CrossOrigin
     public boolean insert(User user){
         return userService.insert(user);
     }

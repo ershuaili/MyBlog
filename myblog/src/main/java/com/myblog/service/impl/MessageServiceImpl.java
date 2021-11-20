@@ -3,9 +3,9 @@ package com.myblog.service.impl;
 import com.myblog.entity.Message;
 import com.myblog.mapper.MessageMapper;
 import com.myblog.service.MessageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Service("messageService")
 public class MessageServiceImpl implements MessageService {
-    @Autowired
+    @Resource
     private MessageMapper messageMapper;
 
     /**
@@ -31,14 +31,16 @@ public class MessageServiceImpl implements MessageService {
     }
 
     /**
-     * 查询多条数据
+     * 分页查询数据
      *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
+     * @param page 查询页数
      * @return 对象列表
      */
     @Override
-    public List<Message> queryAllByLimit(int offset, int limit) {
+    public List<Message> queryAllByLimit(int page) {
+        int limit = 5;
+        int offset = page * limit - limit;
+        // 分页大小
         return this.messageMapper.queryAllByLimit(offset, limit);
     }
 
@@ -52,18 +54,6 @@ public class MessageServiceImpl implements MessageService {
     public Message insert(Message message) {
         this.messageMapper.insert(message);
         return message;
-    }
-
-    /**
-     * 修改数据
-     *
-     * @param message 实例对象
-     * @return 实例对象
-     */
-    @Override
-    public Message update(Message message) {
-        this.messageMapper.update(message);
-        return this.queryById(message.getMessageId());
     }
 
     /**

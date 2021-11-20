@@ -26,7 +26,7 @@ const routes = [
             {
                 path: '/message',
                 name: 'Message',
-                component: () => import('../views/user/Message.vue'),
+                component: () => import('../views/user/Messages.vue'),
                 meta: {title: '留言板'},
             },
             {
