@@ -1,21 +1,38 @@
 <template>
-  <!--分页查询-->
   <div class="paginate">
     <ul class="pagination">
-      <li><a href="#">«</a></li>
-      <li><a href="#">1</a></li>
-      <li><a class="active" href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#">»</a></li>
+      <li @click="pageReduce"><a>«</a></li>
+      <li v-for="index of this.$store.state.paginate.pageNum" :key="index">
+        <a @click="pageJump" v-bind:class="{'active':index===this.$store.state.paginate.pageShow}">{{ index }}</a>
+      </li>
+      <li @click="pageAdd"><a>»</a></li>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Paginate"
+  name: "Paginate",
+  methods: {
+    pageReduce() {
+      if (this.$store.state.paginate.pageShow <= 1) {
+        alert("前面没有了")
+      } else {
+        this.$store.state.paginate.pageShow--
+      }
+    },
+    pageAdd() {
+      if (this.$store.state.paginate.pageShow >= this.$store.state.paginate.pageNum) {
+        alert("后面没有了")
+      } else {
+        this.$store.state.paginate.pageShow++
+      }
+    },
+    pageJump() {
+      this.$store.state.paginate.pageShow = Number(event.target.innerText)
+      console.log(this.$store.state.paginate.pageShow)
+    },
+  },
 }
 </script>
 

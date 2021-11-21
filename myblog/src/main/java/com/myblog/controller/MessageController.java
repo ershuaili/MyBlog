@@ -4,6 +4,7 @@ import com.myblog.entity.Message;
 import com.myblog.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,5 +42,15 @@ public class MessageController {
     @GetMapping("/queryAllNumber")
     public int queryAllNumber(){
         return messageService.queryAllNumber();
+    }
+
+    /**
+     * 插入数据
+     * @param message 消息实体
+     * @return 消息
+     */
+    @PostMapping("/insert")
+    public Message insertMessage(Message message){
+        return messageService.insert(message);
     }
 }

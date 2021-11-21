@@ -9,7 +9,7 @@
         <span class="message_userLabel_admin" v-if="item.user.userRights==='ADMIN'">管理员</span>
         <span class="message_userLabel" v-if="item.user.userRights==='USER'">游客</span>
         <span class="message_time">{{ item.messageCreateTime }}</span>
-        <span class="message_restore" @click="restore">回复</span>
+        <!--<span class="message_restore" @click="restore">回复</span>-->
       </div>
       <div class="message_content">
         <div>{{item.messageContent}}</div>
@@ -20,7 +20,6 @@
 
 <script>
 import axios from "axios";
-import store from "@/store/index";
 
 export default {
   name: "Message",
@@ -36,28 +35,36 @@ export default {
             userNickname: '',
             userHeadPortrait: '',
             userRights: ''
+          },
+          paginate: {
+            pageNum: this.$store.state.paginate.pageNum,
+            pageShow: this.$store.state.paginate.pageShow,
           }
         }
       ],
     }
   },
-  created() {
-    this.queryMessageByLimit();
-  },
+  created() {this.queryMessageByLimit()},
   methods: {
     // 分页查询评论数据
     queryMessageByLimit() {
-      axios.get('/message/queryMessageByLimit', {params: {page: 1}}).then(successResponse => {
-        this.messages=successResponse.data
-        store.state.length=successResponse.data.length
+      let a = this.$store.state.paginate.pageShow
+      axios.get('/message/queryMessageByLimit', {params: {page: a}}).then(successResponse => {
+        this.messages = successResponse.data
       }).catch(function (error) {
         console.log(error);
       })
     },
-    restore(){
-      alert("还没完成")
-    },
   },
+  watch: {
+    "$store.state.paginate":{
+      deep:true,//深度监听设置为 true
+      handler:function(){
+        this.queryMessageByLimit();
+      }
+    }
+  }
+
 }
 </script>
 

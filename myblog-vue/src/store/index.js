@@ -4,7 +4,14 @@ import {createStore} from 'vuex'
 export default createStore({
     // 用于存储数据
     state: {
-        length:'',
+        paginate:{
+            // 数据总数
+            messages:'',
+            // 总共页数
+            pageNum:'',
+            // 当前展示页数
+            pageShow:1,
+        }
     },
     // 用于操作数据
     mutations: {},

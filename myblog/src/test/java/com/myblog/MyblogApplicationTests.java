@@ -1,5 +1,6 @@
 package com.myblog;
 
+import com.myblog.entity.Message;
 import com.myblog.entity.User;
 import com.myblog.service.MessageService;
 import com.myblog.service.UserService;
@@ -22,7 +23,10 @@ class MyblogApplicationTests {
 
     @Test
     void test(){
-        System.out.println(messageService.queryAllNumber());
+        Message message = new Message();
+        message.setMessageUserNickname("111");
+        message.setMessageContent("测试插入数据");
+        System.out.println(messageService.insert(message));
     }
 
     @Test
@@ -46,7 +50,7 @@ class MyblogApplicationTests {
     // 验证token
     @Test
     void validateToken(){
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6ImFhYWEiLCJ1c2VyUmlnaHRzIjoiQURNSU4iLCJpYXQiOjE2MzcyNDY3MzYsImV4cCI6MTYzNzMzMzEzNn0.LN2n5-llEd9oNxa6zpUeUwGmwNeH_--vIUMvJlhgWjM";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IjEyMyIsInVzZXJSaWdodHMiOiJVU0VSIiwiaWF0IjoxNjM3NDY4ODAyLCJleHAiOjE2Mzc1NTUyMDJ9.oOw9kkrIRyWuByMplgew3yOw5b0FDZfzxeewVOisg0U";
         System.out.println(JwtUtil.validateToken(token));
     }
 

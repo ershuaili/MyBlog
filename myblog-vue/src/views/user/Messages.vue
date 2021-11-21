@@ -2,19 +2,19 @@
   <div class="message">
     <!-- 评论输入框 -->
     <div class="message_input">
-      <textarea class="input_textarea"> </textarea>
-      <button type="button" class="input_button">提交</button>
+      <textarea v-model="input_textarea" class="input_textarea"> </textarea>
+      <button @click="textareaSubmit" type="button" class="input_button">提交</button>
     </div>
     <!-- 评论列表 -->
     <div class="message_comments">
       <div class="message_head">
-        <span class="number">{{length}}</span>条留言
+        <span class="number">{{ pages }}</span>条留言
       </div>
       <!-- 留言 -->
-      <Message/>
+      <Message ref="message"/>
     </div>
     <!-- 分页查询 -->
-    <Paginate/>
+    <Paginate></Paginate>
   </div>
 </template>
 
@@ -22,24 +22,61 @@
 import Paginate from "@/components/common/Paginate";
 import Message from "@/components/user/Message";
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "Messages",
   components: {Message, Paginate},
   data() {
     return {
-      length:'',
+      input_textarea: '',
+      nickname: '',
+      pages: '',
     }
   },
   created(){this.getLength()},
-  methods:{
+  methods: {
     // 获取数据总数
-    getLength(){
+    getLength() {
       axios.get('/message/queryAllNumber').then(successResponse => {
-        this.length=successResponse.data
+        this.pages = successResponse.data
+        this.$store.state.paginate.pageNum = Math.ceil((successResponse.data) / 10)
       }).catch(function (error) {
         console.log(error);
       })
+    },
+    // 用户评论提交
+    textareaSubmit() {
+      if (localStorage.getItem("token") === null) {
+        alert("您还没登录请先登录")
+        router.push("/login");
+      } else {
+        let params = new URLSearchParams();
+        params.append("token", localStorage.getItem("token"))
+        axios.post('/user/checkToken', params)
+            .then(successResponse => {
+              let params = new URLSearchParams();
+              params.append("messageUserNickname", successResponse.data.nickname)
+              params.append("messageContent", this.input_textarea)
+              axios.post('/message/insert', params)
+                  .then(successResponse => {
+                    // 更新页面信息
+                    this.$refs.message.queryMessageByLimit();
+                    this.input_textarea = "";
+                    this.$store.state.paginate.messages++
+                  })
+            }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    },
+  },
+  watch: {
+    "$store.state.paginate":{
+      deep:true,//深度监听设置为 true
+      handler:function(){
+        this.getLength();
+      }
     }
   }
 }

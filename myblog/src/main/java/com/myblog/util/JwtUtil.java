@@ -45,7 +45,6 @@ public class JwtUtil {
         calendar.add(Calendar.SECOND, EXPIRATION_TIME);
         Date time = calendar.getTime();
         HashMap<String, Object> map = new LinkedHashMap<>();
-
         //you can put any data in the map
         map.put("userName", userName);
         map.put("userRights", userRights);
