@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter,createWebHistory} from 'vue-router'
 import User from "@/views/user/User";
 
 // 路由数组
@@ -139,6 +139,7 @@ const routes = [
 // 创建一个路由
 const router = createRouter({
     history: createWebHistory(),
+    assetsPublicPath: '/',
     routes
 })
 

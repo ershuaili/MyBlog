@@ -6,7 +6,9 @@ import com.myblog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Blog)表服务实现类
@@ -38,6 +40,19 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> queryAll() {
         return this.blogMapper.queryAll();
+    }
+
+    /**
+     * 获取网站公共信息
+     *
+     * @return 集合
+     */
+    @Override
+    public Map<String, Object> queryCommonMessage() {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        map.put("BlogCount",this.blogMapper.queryAllCount());
+        map.put("ViewsCount",this.blogMapper.queryAllVisits());
+        return map;
     }
 
 }

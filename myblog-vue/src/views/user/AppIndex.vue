@@ -13,12 +13,11 @@ export default {
   data() {
     return {}
   },
-  methods: {}
+  created() {},
+  methods: {},
 }
 </script>
 
 <style>
-.index {
-  padding-bottom: 30px;
-}
+
 </style>

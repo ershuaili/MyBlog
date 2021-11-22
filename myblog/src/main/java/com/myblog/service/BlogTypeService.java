@@ -52,5 +52,4 @@ public interface BlogTypeService {
      * @return 是否成功
      */
     boolean deleteById(Long id);
-
 }

@@ -8,7 +8,7 @@
     <!-- 评论列表 -->
     <div class="message_comments">
       <div class="message_head">
-        <span class="number">{{ pages }}</span>条留言
+        <span class="number">{{ this.$store.state.paginate.messages }}</span>条留言
       </div>
       <!-- 留言 -->
       <Message ref="message"/>
@@ -31,16 +31,15 @@ export default {
     return {
       input_textarea: '',
       nickname: '',
-      pages: '',
     }
   },
   created(){this.getLength()},
   methods: {
     // 获取数据总数
     getLength() {
-      axios.get('/message/queryAllNumber').then(successResponse => {
-        this.pages = successResponse.data
-        this.$store.state.paginate.pageNum = Math.ceil((successResponse.data) / 10)
+      axios.get('/message/queryAllNumber').then(res => {
+        this.$store.state.paginate.messages = res.data
+        this.$store.state.paginate.pageNum = Math.ceil((res.data) / 10)
       }).catch(function (error) {
         console.log(error);
       })
@@ -54,12 +53,12 @@ export default {
         let params = new URLSearchParams();
         params.append("token", localStorage.getItem("token"))
         axios.post('/user/checkToken', params)
-            .then(successResponse => {
+            .then(res => {
               let params = new URLSearchParams();
-              params.append("messageUserNickname", successResponse.data.nickname)
+              params.append("messageUserNickname", res.data.nickname)
               params.append("messageContent", this.input_textarea)
               axios.post('/message/insert', params)
-                  .then(successResponse => {
+                  .then(res => {
                     // 更新页面信息
                     this.$refs.message.queryMessageByLimit();
                     this.input_textarea = "";

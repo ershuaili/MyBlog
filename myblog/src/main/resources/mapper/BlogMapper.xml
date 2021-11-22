@@ -14,7 +14,14 @@
         <result property="articleCommentCount" column="article_comment_count" jdbcType="INTEGER"/>
         <result property="articleLikeCount" column="article_like_count" jdbcType="INTEGER"/>
     </resultMap>
-
+    <!--查询博客总数-->
+    <select id="queryAllCount" resultType="int">
+        select count(article_id) from blog
+    </select>
+    <!--查询浏览总数-->
+    <select id="queryAllVisits" resultType="int">
+        select sum(article_visits_count) from blog
+    </select>
     <!--查询单个-->
     <select id="queryById" resultMap="BlogMap">
         select article_id,

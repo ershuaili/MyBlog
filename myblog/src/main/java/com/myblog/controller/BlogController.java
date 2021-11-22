@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Blog)表控制层
@@ -43,5 +44,10 @@ public class BlogController {
     @GetMapping("selectAll")
     public List<Blog> selectAll() {
         return this.blogService.queryAll();
+    }
+
+    @GetMapping("queryCommonMessage")
+    public Map<String, Object> queryCommonMessage(){
+        return blogService.queryCommonMessage();
     }
 }

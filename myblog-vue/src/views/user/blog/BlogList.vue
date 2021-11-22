@@ -16,14 +16,16 @@
         <img alt="" v-bind:src="item.articleFirstPicture">
     </div>
   </div>
+  <UserBottom/>
 </template>
 
 <script>
-
 import axios from "axios";
+import UserBottom from "@/components/user/UserBottom";
 
 export default {
   name: "BlogList",
+  components: {UserBottom},
   data() {
     return {
       blogs: [
@@ -50,7 +52,6 @@ export default {
       console.log(error);
     });
   },
-
   methods: {
     toBlog(id) {
       console.log(id);

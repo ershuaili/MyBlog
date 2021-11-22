@@ -13,7 +13,16 @@ import java.util.List;
  */
 @Mapper
 public interface BlogMapper {
-
+    /**
+     * 查询博客总数
+     * @return 博客总数
+     */
+    int queryAllCount();
+    /**
+     * 查询浏览总数
+     * @return 浏览数
+     */
+    int queryAllVisits();
     /**
      * 通过ID查询单条数据
      *

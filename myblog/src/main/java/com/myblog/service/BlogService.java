@@ -3,6 +3,7 @@ package com.myblog.service;
 import com.myblog.entity.Blog;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Blog)表服务接口
@@ -26,4 +27,10 @@ public interface BlogService {
      * @return BLogList
      */
     List<Blog> queryAll();
+
+    /**
+     * 获取网站公共信息
+     * @return 集合
+     */
+    Map<String,Object> queryCommonMessage();
 }
