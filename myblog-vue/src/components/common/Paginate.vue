@@ -30,7 +30,6 @@ export default {
     },
     pageJump() {
       this.$store.state.paginate.pageShow = Number(event.target.innerText)
-      console.log(this.$store.state.paginate.pageShow)
     },
   },
 }
@@ -38,6 +37,7 @@ export default {
 
 <style scoped>
 .paginate {
+  margin-top: 30px;
   text-align: center;
 }
 

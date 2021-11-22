@@ -16,16 +16,18 @@
         <img alt="" v-bind:src="item.articleFirstPicture">
     </div>
   </div>
-  <UserBottom/>
+  <!--<Paginate/>-->
+  <!--<UserBottom/>-->
 </template>
 
 <script>
 import axios from "axios";
 import UserBottom from "@/components/user/UserBottom";
+import Paginate from "@/components/common/Paginate";
 
 export default {
   name: "BlogList",
-  components: {UserBottom},
+  components: {Paginate, UserBottom},
   data() {
     return {
       blogs: [
@@ -48,6 +50,7 @@ export default {
   created() {
     axios.get('/blog/selectAll').then(successResponse => {
       this.blogs = successResponse.data;
+
     }).catch(function (error) {
       console.log(error);
     });

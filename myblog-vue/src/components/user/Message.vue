@@ -9,7 +9,6 @@
         <span class="message_userLabel_admin" v-if="item.user.userRights==='ADMIN'">管理员</span>
         <span class="message_userLabel" v-if="item.user.userRights==='USER'">游客</span>
         <span class="message_time">{{ item.messageCreateTime }}</span>
-        <!--<span class="message_restore" @click="restore">回复</span>-->
       </div>
       <div class="message_content">
         <div>{{item.messageContent}}</div>
@@ -49,8 +48,8 @@ export default {
     // 分页查询评论数据
     queryMessageByLimit() {
       let a = this.$store.state.paginate.pageShow
-      axios.get('/message/queryMessageByLimit', {params: {page: a}}).then(successResponse => {
-        this.messages = successResponse.data
+      axios.get('/message/queryMessageByLimit', {params: {page: a}}).then(res => {
+        this.messages = res.data
       }).catch(function (error) {
         console.log(error);
       })
@@ -127,12 +126,6 @@ export default {
 .message_time {
   padding: 0 10px;
   color: #919191;
-}
-
-.message_restore {
-  float: right;
-  color: #4CAF50;
-  cursor: pointer;
 }
 
 /* 评论内容 */
