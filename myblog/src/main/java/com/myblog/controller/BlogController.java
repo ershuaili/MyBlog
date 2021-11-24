@@ -37,15 +37,18 @@ public class BlogController {
     }
 
     /**
-     * 查询所有博客
-     *
-     * @return BlogList
+     * 分页查询博客信息
+     * @return 博客列表
      */
-    @GetMapping("selectAll")
-    public List<Blog> selectAll() {
-        return this.blogService.queryAll();
+    @GetMapping("/queryBlogByLimit")
+    public List<Blog> queryAllByLimit(int page){
+        return blogService.queryAllByLimit(page);
     }
 
+    /**
+     * 查询博客公共信息
+     * @return map
+     */
     @GetMapping("queryCommonMessage")
     public Map<String, Object> queryCommonMessage(){
         return blogService.queryCommonMessage();

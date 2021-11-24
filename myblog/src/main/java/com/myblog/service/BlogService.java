@@ -33,4 +33,11 @@ public interface BlogService {
      * @return 集合
      */
     Map<String,Object> queryCommonMessage();
+
+    /**
+     * 分页查询博客信息
+     * @param page 页数
+     * @return 博客信息列表
+     */
+    List<Blog> queryAllByLimit(int page);
 }

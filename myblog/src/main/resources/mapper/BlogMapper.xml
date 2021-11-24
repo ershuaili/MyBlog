@@ -40,9 +40,32 @@
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BlogMap">
-        select
-        article_id, article_title, article_first_picture, article_description, article_content, article_create_time,
-        article_update_time, article_visits_count, article_comment_count, article_like_count
+        select article_id,
+               article_title,
+               article_first_picture,
+               article_description,
+               article_content,
+               article_create_time,
+               article_update_time,
+               article_visits_count,
+               article_comment_count,
+               article_like_count
         from db_myblog.blog
+    </select>
+
+    <select id="queryAllByLimit" resultMap="BlogMap">
+        select article_id,
+               article_title,
+               article_first_picture,
+               article_description,
+               article_content,
+               article_create_time,
+               article_update_time,
+               article_visits_count,
+               article_comment_count,
+               article_like_count
+        from db_myblog.blog
+        order by article_create_time desc
+        limit #{offset}, #{limit}
     </select>
 </mapper>

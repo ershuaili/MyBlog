@@ -18,7 +18,7 @@
     </div>
   </div>
   <!-- 标签页-主体 -->
-  <blog-list></blog-list>
+  <BlogList/>
 </template>
 
 <script>

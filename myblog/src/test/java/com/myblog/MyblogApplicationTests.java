@@ -1,7 +1,7 @@
 package com.myblog;
 
-import com.myblog.entity.Message;
 import com.myblog.entity.User;
+import com.myblog.mapper.BlogMapper;
 import com.myblog.service.MessageService;
 import com.myblog.service.UserService;
 import com.myblog.util.JwtUtil;
@@ -17,16 +17,15 @@ class MyblogApplicationTests {
     @Autowired
     private UserService userService;
     @Autowired
+    private BlogMapper blogMapper;
+    @Autowired
     private MessageService messageService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Test
     void test(){
-        Message message = new Message();
-        message.setMessageUserNickname("111");
-        message.setMessageContent("测试插入数据");
-        System.out.println(messageService.insert(message));
+        System.out.println(blogMapper.queryAllByLimit(0,2));
     }
 
     @Test

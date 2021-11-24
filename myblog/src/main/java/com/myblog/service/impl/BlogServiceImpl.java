@@ -55,4 +55,18 @@ public class BlogServiceImpl implements BlogService {
         return map;
     }
 
+    /**
+     * 分页查询博客信息
+     *
+     * @param page 页数
+     * @return 博客信息列表
+     */
+    @Override
+    public List<Blog> queryAllByLimit(int page) {
+        int limit = 5;
+        int offset = page * limit - limit;
+        // 分页大小
+        return this.blogMapper.queryAllByLimit(offset, limit);
+    }
+
 }

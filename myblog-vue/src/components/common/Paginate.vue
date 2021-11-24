@@ -2,7 +2,7 @@
   <div class="paginate">
     <ul class="pagination">
       <li @click="pageReduce"><a>«</a></li>
-      <li v-for="index of this.$store.state.paginate.pageNum" :key="index">
+      <li v-for="index of this.pageNum" :key="index">
         <a @click="pageJump" v-bind:class="{'active':index===this.$store.state.paginate.pageShow}">{{ index }}</a>
       </li>
       <li @click="pageAdd"><a>»</a></li>
@@ -13,6 +13,15 @@
 <script>
 export default {
   name: "Paginate",
+  data() {
+    return {
+      pageNum: this.$store.state.paginate.pageNum
+    }
+  },
+  created() {
+    console.log(this.$store.state.paginate.pageNum)
+  },
+
   methods: {
     pageReduce() {
       if (this.$store.state.paginate.pageShow <= 1) {

@@ -11,10 +11,13 @@ export default createStore({
             pageNum:'',
             // 当前展示页数
             pageShow:1,
-        }
+        },
+        BlogList:{}
     },
     // 用于操作数据
-    mutations: {},
+    mutations: {
+
+    },
     // 用于相应组件中的动作
     actions: {},
 

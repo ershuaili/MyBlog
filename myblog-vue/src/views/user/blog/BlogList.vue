@@ -13,11 +13,11 @@
       </div>
     </div>
     <div class="blogs-right">
-        <img alt="" v-bind:src="item.articleFirstPicture">
+      <img alt="" v-bind:src="item.articleFirstPicture">
     </div>
   </div>
-  <!--<Paginate/>-->
-  <!--<UserBottom/>-->
+  <Paginate v-if="isShow"/>
+  <UserBottom v-if="isShow"/>
 </template>
 
 <script>
@@ -43,27 +43,55 @@ export default {
           articleCommentCount: '',
           articleLikeCount: '',
         }
-      ]
+      ],
+      isShow:false,
     }
   },
   // 获取博客列表
   created() {
-    axios.get('/blog/selectAll').then(successResponse => {
-      this.blogs = successResponse.data;
-
-    }).catch(function (error) {
-      console.log(error);
-    });
+    this.getLength();
+    this.getBlogList();
   },
   methods: {
+    // 获取分页信息
+    getLength() {
+      axios.get('/blog/queryCommonMessage').then(res => {
+        this.$store.state.paginate.pageNum = Math.ceil((res.data.BlogCount) / 5)
+      }).catch(function (error) {
+        console.log(error);
+      })
+    },
+
+    // 分页查询博客信息
+    getBlogList(){
+      let a = this.$store.state.paginate.pageShow
+      console.log("当前页面"+a)
+      axios.get('/blog/queryBlogByLimit',{params: {page: a}}).then(res => {
+        this.blogs = res.data;
+        // 页面数据渲染后加载底部导航
+        this.isShow=true;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    // 转跳博客详情页面
     toBlog(id) {
-      console.log(id);
       let routeUrl = this.$router.resolve({
         path: "/blog",
         query: {id: id}
       });
       window.open(routeUrl.href, '_blank');
     },
+  },
+  // 监听页面转跳
+  watch: {
+    "$store.state.paginate":{
+      deep:true,//深度监听设置为 true
+      handler:function(){
+        this.getBlogList();
+      }
+    }
   }
 }
 </script>

@@ -37,5 +37,13 @@ public interface BlogMapper {
      * @return 对象列表
      */
     List<Blog> queryAll();
+
+    /**
+     * 分页查新博客信息
+     * @param offset 分页起始位置
+     * @param limit 每页条数
+     * @return 博客信息
+     */
+    List<Blog> queryAllByLimit(int offset,int limit);
 }
 

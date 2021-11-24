@@ -139,7 +139,6 @@ const routes = [
 // 创建一个路由
 const router = createRouter({
     history: createWebHistory(),
-    assetsPublicPath: '/',
     routes
 })
 

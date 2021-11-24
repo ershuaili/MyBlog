@@ -14,7 +14,7 @@
       <Message ref="message"/>
     </div>
     <!-- 分页查询 -->
-    <Paginate></Paginate>
+    <Paginate/>
   </div>
 </template>
 
