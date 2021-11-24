@@ -18,9 +18,6 @@ export default {
       pageNum: this.$store.state.paginate.pageNum
     }
   },
-  created() {
-    console.log(this.$store.state.paginate.pageNum)
-  },
 
   methods: {
     pageReduce() {

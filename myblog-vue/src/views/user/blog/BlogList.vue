@@ -65,6 +65,7 @@ export default {
     // 分页查询博客信息
     getBlogList(){
       let a = this.$store.state.paginate.pageShow
+      console.log("总共页面"+this.$store.state.paginate.pageNum)
       console.log("当前页面"+a)
       axios.get('/blog/queryBlogByLimit',{params: {page: a}}).then(res => {
         this.blogs = res.data;
