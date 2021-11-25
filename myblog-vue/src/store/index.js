@@ -36,7 +36,7 @@ export default createStore({
     // 用于相应组件中的动作
     actions: {
         setPageNum(context, value) {
-            console.log(context, value)
+            context.commit("SetPageNum", value)
         },
         // 页面转跳
         pageReduce(context, value) {

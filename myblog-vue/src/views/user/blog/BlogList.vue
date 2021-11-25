@@ -63,10 +63,10 @@ export default {
 
     // 分页查询博客信息
     getBlogList(){
-      axios.get('/blog/queryBlogByLimit', {params: {page: 1}}).then(res => {
+      axios.get('/blog/queryBlogByLimit', {params: {page: this.$store.state.paginate.pageShow}}).then(res => {
         this.blogs = res.data;
         // 页面数据渲染后加载底部导航
-        this.getLength();
+        this.getLength()
         this.isShow = true;
       }).catch(function (error) {
         console.log(error);
@@ -82,7 +82,15 @@ export default {
       window.open(routeUrl.href, '_blank');
     },
   },
-
+  // 监听页面数据发生变化
+  watch: {
+    "$store.state.paginate": {
+      deep: true,//深度监听设置为 true
+      handler: function () {
+        this.getBlogList();
+      }
+    }
+  }
 }
 </script>
 

@@ -13,6 +13,7 @@
 <script>
 export default {
   name: "Paginate",
+
   methods: {
     // 分页转跳
     pageReduce() {
