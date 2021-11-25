@@ -49,14 +49,13 @@ export default {
   },
   // 获取博客列表
   created() {
-    this.getLength();
     this.getBlogList();
   },
   methods: {
-    // 获取分页信息
+    // 获取博客分页信息
     getLength() {
       axios.get('/blog/queryCommonMessage').then(res => {
-        this.$store.state.paginate.pageNum = Math.ceil((res.data.BlogCount) / 5)
+        this.$store.dispatch('setPageNum', Math.ceil((res.data.BlogCount) / 5))
       }).catch(function (error) {
         console.log(error);
       })
@@ -64,13 +63,11 @@ export default {
 
     // 分页查询博客信息
     getBlogList(){
-      let a = this.$store.state.paginate.pageShow
-      console.log("总共页面"+this.$store.state.paginate.pageNum)
-      console.log("当前页面"+a)
-      axios.get('/blog/queryBlogByLimit',{params: {page: a}}).then(res => {
+      axios.get('/blog/queryBlogByLimit', {params: {page: 1}}).then(res => {
         this.blogs = res.data;
         // 页面数据渲染后加载底部导航
-        this.isShow=true;
+        this.getLength();
+        this.isShow = true;
       }).catch(function (error) {
         console.log(error);
       });
@@ -85,15 +82,7 @@ export default {
       window.open(routeUrl.href, '_blank');
     },
   },
-  // 监听页面转跳
-  watch: {
-    "$store.state.paginate":{
-      deep:true,//深度监听设置为 true
-      handler:function(){
-        this.getBlogList();
-      }
-    }
-  }
+
 }
 </script>
 

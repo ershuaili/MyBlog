@@ -33,17 +33,18 @@ export default {
       nickname: '',
     }
   },
-  created(){this.getLength()},
+
   methods: {
-    // 获取数据总数
-    getLength() {
-      axios.get('/message/queryAllNumber').then(res => {
-        this.$store.state.paginate.messages = res.data
-        this.$store.state.paginate.pageNum = Math.ceil((res.data) / 10)
-      }).catch(function (error) {
-        console.log(error);
-      })
-    },
+    // // 获取数据总数
+    // getLength() {
+    //   axios.get('/message/queryAllNumber').then(res => {
+    //     this.$store.state.paginate.messages = res.data
+    //     this.$store.state.paginate.pageNum = Math.ceil((res.data) / 10)
+    //   }).catch(function (error) {
+    //     console.log(error);
+    //   })
+    // },
+
     // 用户评论提交
     textareaSubmit() {
       if (localStorage.getItem("token") === null) {
@@ -62,7 +63,6 @@ export default {
                     // 更新页面信息
                     this.$refs.message.queryMessageByLimit();
                     this.input_textarea = "";
-                    this.$store.state.paginate.messages++
                   })
             }).catch(function (error) {
           console.log(error);
@@ -70,14 +70,15 @@ export default {
       }
     },
   },
-  watch: {
-    "$store.state.paginate":{
-      deep:true,//深度监听设置为 true
-      handler:function(){
-        this.getLength();
-      }
-    }
-  }
+
+  // watch: {
+  //   "$store.state.paginate":{
+  //     deep:true,//深度监听设置为 true
+  //     handler:function(){
+  //       this.getLength();
+  //     }
+  //   }
+  // }
 }
 </script>
 

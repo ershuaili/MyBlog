@@ -34,8 +34,8 @@ export default {
     });
     axios.get('/message/queryAllNumber').then(res => {
       this.MessageCount = res.data
-      this.$store.state.paginate.messages = res.data
-      this.$store.state.paginate.pageNum = Math.ceil((res.data) / 10)
+      // this.$store.state.paginate.messages = res.data
+      // this.$store.state.paginate.pageNum = Math.ceil((res.data) / 10)
     }).catch(function (error) {
       console.log(error);
     });

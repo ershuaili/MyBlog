@@ -35,10 +35,6 @@ export default {
             userHeadPortrait: '',
             userRights: ''
           },
-          paginate: {
-            pageNum: this.$store.state.paginate.pageNum,
-            pageShow: this.$store.state.paginate.pageShow,
-          }
         }
       ],
     }
@@ -47,22 +43,21 @@ export default {
   methods: {
     // 分页查询评论数据
     queryMessageByLimit() {
-      let a = this.$store.state.paginate.pageShow
-      axios.get('/message/queryMessageByLimit', {params: {page: a}}).then(res => {
+      axios.get('/message/queryMessageByLimit', {params: {page: 1}}).then(res => {
         this.messages = res.data
       }).catch(function (error) {
         console.log(error);
       })
     },
   },
-  watch: {
-    "$store.state.paginate":{
-      deep:true,//深度监听设置为 true
-      handler:function(){
-        this.queryMessageByLimit();
-      }
-    }
-  }
+  // watch: {
+  //   "$store.state.paginate":{
+  //     deep:true,//深度监听设置为 true
+  //     handler:function(){
+  //       this.queryMessageByLimit();
+  //     }
+  //   }
+  // }
 
 }
 </script>

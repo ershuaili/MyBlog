@@ -2,7 +2,7 @@
   <div class="paginate">
     <ul class="pagination">
       <li @click="pageReduce"><a>«</a></li>
-      <li v-for="index of this.pageNum" :key="index">
+      <li v-for="index of this.$store.state.paginate.pageNum" :key="index">
         <a @click="pageJump" v-bind:class="{'active':index===this.$store.state.paginate.pageShow}">{{ index }}</a>
       </li>
       <li @click="pageAdd"><a>»</a></li>
@@ -13,29 +13,19 @@
 <script>
 export default {
   name: "Paginate",
-  data() {
-    return {
-      pageNum: this.$store.state.paginate.pageNum
-    }
-  },
-
   methods: {
+    // 分页转跳
     pageReduce() {
-      if (this.$store.state.paginate.pageShow <= 1) {
-        alert("前面没有了")
-      } else {
-        this.$store.state.paginate.pageShow--
-      }
+      this.$store.dispatch('pageReduce', this.$store.state.paginate.pageShow)
     },
     pageAdd() {
-      if (this.$store.state.paginate.pageShow >= this.$store.state.paginate.pageNum) {
-        alert("后面没有了")
-      } else {
-        this.$store.state.paginate.pageShow++
-      }
+      this.$store.dispatch('pageAdd', {
+        pageShow: this.$store.state.paginate.pageShow,
+        pageNum: this.$store.state.paginate.pageNum
+      })
     },
     pageJump() {
-      this.$store.state.paginate.pageShow = Number(event.target.innerText)
+      this.$store.dispatch('pageJump', Number(event.target.innerText))
     },
   },
 }
