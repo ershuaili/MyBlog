@@ -20,6 +20,16 @@ public class TypeServiceImpl implements TypeService {
     private TypeMapper typeMapper;
 
     /**
+     * 查询所有数据
+     *
+     * @return 数据集合
+     */
+    @Override
+    public List<Type> queryAll() {
+        return this.typeMapper.queryAll();
+    }
+
+    /**
      * 通过ID查询单条数据
      *
      * @param typeId 主键

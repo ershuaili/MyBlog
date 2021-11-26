@@ -2,6 +2,7 @@ package com.myblog;
 
 import com.myblog.entity.User;
 import com.myblog.mapper.BlogMapper;
+import com.myblog.mapper.TypeMapper;
 import com.myblog.service.MessageService;
 import com.myblog.service.UserService;
 import com.myblog.util.JwtUtil;
@@ -22,14 +23,16 @@ class MyblogApplicationTests {
     private MessageService messageService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private TypeMapper typeMapper;
 
     @Test
-    void test(){
-        System.out.println(blogMapper.queryAllByLimit(0,2));
+    void test() {
+        System.out.println(blogMapper.queryAll());
     }
 
     @Test
-    void user(){
+    void user() {
         User user = new User();
         user.setUserId(5L);
         user.setUserNickname("111");

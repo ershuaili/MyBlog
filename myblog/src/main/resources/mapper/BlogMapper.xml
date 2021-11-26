@@ -13,6 +13,12 @@
         <result property="articleVisitsCount" column="article_visits_count" jdbcType="INTEGER"/>
         <result property="articleCommentCount" column="article_comment_count" jdbcType="INTEGER"/>
         <result property="articleLikeCount" column="article_like_count" jdbcType="INTEGER"/>
+        <association property="type" javaType="Type">
+            <result property="typeId" column="type_id" jdbcType="INTEGER"/>
+            <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+            <result property="typeContent" column="type_content" jdbcType="VARCHAR"/>
+            <result property="typeCreateTime" column="type_create_time" jdbcType="TIMESTAMP"/>
+        </association>
     </resultMap>
     <!--查询博客总数-->
     <select id="queryAllCount" resultType="int">

@@ -16,6 +16,12 @@ import java.util.List;
 public interface TypeMapper {
 
     /**
+     * 查询所有数据
+     * @return 数据集合
+     */
+    List<Type> queryAll();
+
+    /**
      * 通过ID查询单条数据
      *
      * @param typeId 主键
@@ -32,15 +38,6 @@ public interface TypeMapper {
      */
     List<Type> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
-
-    /**
-     * 通过实体作为筛选条件查询
-     *
-     * @param type 实例对象
-     * @return 对象列表
-     */
-    List<Type> queryAll(Type type);
-
     /**
      * 新增数据
      *
@@ -48,22 +45,6 @@ public interface TypeMapper {
      * @return 影响行数
      */
     int insert(Type type);
-
-    /**
-     * 批量新增数据（MyBatis原生foreach方法）
-     *
-     * @param entities List<Type> 实例对象列表
-     * @return 影响行数
-     */
-    int insertBatch(@Param("entities") List<Type> entities);
-
-    /**
-     * 批量新增或按主键更新数据（MyBatis原生foreach方法）
-     *
-     * @param entities List<Type> 实例对象列表
-     * @return 影响行数
-     */
-    int insertOrUpdateBatch(@Param("entities") List<Type> entities);
 
     /**
      * 修改数据

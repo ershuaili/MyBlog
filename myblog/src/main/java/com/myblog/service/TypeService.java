@@ -13,6 +13,12 @@ import java.util.List;
 public interface TypeService {
 
     /**
+     * 查询所有数据
+     * @return 数据集合
+     */
+    List<Type> queryAll();
+
+    /**
      * 通过ID查询单条数据
      *
      * @param typeId 主键
@@ -52,5 +58,4 @@ public interface TypeService {
      * @return 是否成功
      */
     boolean deleteById(Long typeId);
-
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (Type)实体类
@@ -30,4 +31,9 @@ public class Type implements Serializable {
      * 分类创建时间
      */
     private Date typeCreateTime;
+
+    /**
+     * 与Blog的关联查询 一个分类多个博客
+     */
+    private List<Blog> blogs;
 }

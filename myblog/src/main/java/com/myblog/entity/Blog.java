@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (Blog)实体类
@@ -54,4 +55,9 @@ public class Blog implements Serializable {
      * 点赞次数
      */
     private Long articleLikeCount;
+
+    /**
+     * 与Type的关联查询 一个博客可以有多个分类
+     */
+    private List<Type> types;
 }
