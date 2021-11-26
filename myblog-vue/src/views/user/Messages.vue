@@ -8,7 +8,7 @@
     <!-- 评论列表 -->
     <div class="message_comments">
       <div class="message_head">
-        <span class="number">{{ this.$store.state.paginate.messages }}</span>条留言
+        <span class="number">{{ this.messages }}</span>条留言
       </div>
       <!-- 留言 -->
       <Message ref="message"/>
@@ -31,19 +31,23 @@ export default {
     return {
       input_textarea: '',
       nickname: '',
+      messages: '',
     }
   },
 
+  created() {
+    this.queryAllNumber();
+  },
   methods: {
-    // // 获取数据总数
-    // getLength() {
-    //   axios.get('/message/queryAllNumber').then(res => {
-    //     this.$store.state.paginate.messages = res.data
-    //     this.$store.state.paginate.pageNum = Math.ceil((res.data) / 10)
-    //   }).catch(function (error) {
-    //     console.log(error);
-    //   })
-    // },
+    // 获取评论分页信息
+    queryAllNumber() {
+      axios.get('/message/queryAllNumber').then(res => {
+        this.$store.dispatch('setPageNum', Math.ceil((res.data) / 5))
+        this.messages = res.data;
+      }).catch(function (error) {
+        console.log(error);
+      })
+    },
 
     // 用户评论提交
     textareaSubmit() {
@@ -60,25 +64,23 @@ export default {
               params.append("messageContent", this.input_textarea)
               axios.post('/message/insert', params)
                   .then(res => {
-                    // 更新页面信息
-                    this.$refs.message.queryMessageByLimit();
+                    // 清空输入框
                     this.input_textarea = "";
+                    // 消息数加一
+                    this.messages++;
+                    // 刷新消息列表
+                    this.$refs.message.queryMessageByLimit();
+                    // 刷新分页信息
+                    this.$store.dispatch('setPageNum', Math.ceil((this.messages) / 5))
                   })
             }).catch(function (error) {
+          alert("登录信息错误,返回登录");
+          router.push("/login");
           console.log(error);
         });
       }
     },
   },
-
-  // watch: {
-  //   "$store.state.paginate":{
-  //     deep:true,//深度监听设置为 true
-  //     handler:function(){
-  //       this.getLength();
-  //     }
-  //   }
-  // }
 }
 </script>
 

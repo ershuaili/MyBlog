@@ -55,6 +55,7 @@ export default {
     // 获取博客分页信息
     getLength() {
       axios.get('/blog/queryCommonMessage').then(res => {
+        // 五个标签为一页
         this.$store.dispatch('setPageNum', Math.ceil((res.data.BlogCount) / 5))
       }).catch(function (error) {
         console.log(error);
@@ -82,7 +83,7 @@ export default {
       window.open(routeUrl.href, '_blank');
     },
   },
-  // 监听页面数据发生变化
+  // 监听页面数据发生变化 重新渲染博客列表
   watch: {
     "$store.state.paginate": {
       deep: true,//深度监听设置为 true

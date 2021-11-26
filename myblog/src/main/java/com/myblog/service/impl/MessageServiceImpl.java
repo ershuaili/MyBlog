@@ -46,7 +46,7 @@ public class MessageServiceImpl implements MessageService {
      */
     @Override
     public List<Message> queryAllByLimit(int page) {
-        int limit = 10;
+        int limit = 5;
         int offset = page * limit - limit;
         // 分页大小
         return this.messageMapper.queryAllByLimit(offset, limit);

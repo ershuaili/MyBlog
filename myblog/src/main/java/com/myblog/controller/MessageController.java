@@ -26,6 +26,15 @@ public class MessageController {
     private MessageService messageService;
 
     /**
+     * 查询数据总数
+     * @return 数据总数
+     */
+    @GetMapping("/queryAllNumber")
+    public int queryAllNumber(){
+        return messageService.queryAllNumber();
+    }
+
+    /**
      * 分页查询数据
      * @param page 页数
      * @return 数据列表
@@ -33,15 +42,6 @@ public class MessageController {
     @GetMapping("/queryMessageByLimit")
     public List<Message> queryMessageByLimit(Integer page){
         return messageService.queryAllByLimit(page);
-    }
-
-    /**
-     * 查询数据总数
-     * @return 数据总数
-     */
-    @GetMapping("/queryAllNumber")
-    public int queryAllNumber(){
-        return messageService.queryAllNumber();
     }
 
     /**
