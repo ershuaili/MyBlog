@@ -50,19 +50,19 @@ export default {
 /*!* 页面主体部分 *!*/
 .main {
   margin-left: 260px;
-  margin-top: 50px;
+  margin-top: 70px;
 }
 
 .background {
   position: fixed;
   width: 90%;
   height: 100%;
-  background-color: rgba(240, 242, 245);
+  margin-top: -20px;
+  background-color: rgb(227, 227, 227);
 }
 
 .card {
   position: relative;
-  top: 20px;
   width: 95%;
   margin: 0 auto;
   background: rgba(255, 255, 255);

@@ -36,6 +36,7 @@ export default {
 .paginate {
   margin-top: 30px;
   text-align: center;
+  cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
 }
 
 .pagination {

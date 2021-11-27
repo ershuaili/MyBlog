@@ -33,7 +33,16 @@ public class BlogController {
      */
     @GetMapping("selectOne")
     public Blog selectOne(Long id) {
-        return this.blogService.queryById(id);
+        return blogService.queryById(id);
+    }
+
+    /**
+     * 查询所有博客信息
+     * @return 博客信息列表
+     */
+    @GetMapping("/queryAll")
+    public List<Blog> queryAll(){
+        return blogService.queryAll();
     }
 
     /**
