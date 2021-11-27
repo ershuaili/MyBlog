@@ -23,8 +23,27 @@
 
     <!--查询所有分类信息-->
     <select id="queryAll" resultMap="TypeMap">
-        select type_id, type_name, type_content, type_create_time
+        select type.type_id,
+               type.type_name,
+               type.type_content,
+               type.type_create_time,
+               blog.article_id,
+               blog.article_title,
+               blog.article_first_picture,
+               blog.article_description,
+               blog.article_content,
+               blog.article_create_time,
+               blog.article_update_time,
+               blog.article_visits_count,
+               blog.article_comment_count,
+               blog.article_like_count
         from type
+                 left join
+             blog_type
+             on type.type_id = blog_type.type_id
+                 left join
+             blog
+             on blog_type.blog_id = blog.article_id;
     </select>
 
     <!--通过分类名查询一个分类的所有信息-->

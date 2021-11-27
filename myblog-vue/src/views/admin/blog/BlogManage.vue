@@ -9,10 +9,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="(item,index) in blogs" :key="index">
-      <td>{{item.articleTitle}}</td>
-      <td>{{item.articleCreateTime}}</td>
-      <td>分类Java</td>
+    <tr v-for="(itemBlogs,index) in blogs" :key="index">
+      <td>{{ itemBlogs.articleTitle }}</td>
+      <td>{{ itemBlogs.articleCreateTime }}</td>
+      <td>
+        <span v-for="(item,index) in itemBlogs.types" :key="index" class="tableType">
+          {{ item.typeName }}
+        </span>
+      </td>
       <td>
         <button type="button" class="reviseButton">修改</button>
         <button type="button" class="deleteButton">删除</button>
@@ -41,6 +45,14 @@ export default {
           articleVisitsCount: '',
           articleCommentCount: '',
           articleLikeCount: '',
+          types: [
+            {
+              typeId: '',
+              typeName: '',
+              typeContent: '',
+              typeCreateTime: '',
+            }
+          ]
         }
       ],
     }
@@ -89,12 +101,18 @@ tbody tr {
   height: 50px;
 }
 
+.tableType{
+  margin: 5px;
+  padding: 5px;
+  border-radius: 30px;
+  background-color: #69b469;
+}
 .reviseButton {
-  background-color: rgb(247, 137, 137);
+  background-color: rgb(133, 206, 97);
 }
 
 .deleteButton {
-  background-color: rgb(133, 206, 97);
+  background-color: rgb(247, 137, 137);
 }
 
 .reviseButton, .deleteButton { /* 按钮美化 */

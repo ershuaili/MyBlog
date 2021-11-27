@@ -13,15 +13,23 @@
         <result property="articleVisitsCount" column="article_visits_count" jdbcType="INTEGER"/>
         <result property="articleCommentCount" column="article_comment_count" jdbcType="INTEGER"/>
         <result property="articleLikeCount" column="article_like_count" jdbcType="INTEGER"/>
+        <collection property="types" ofType="Type">
+            <result property="typeId" column="type_id" jdbcType="INTEGER"/>
+            <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+            <result property="typeContent" column="type_content" jdbcType="VARCHAR"/>
+            <result property="typeCreateTime" column="type_create_time" jdbcType="TIMESTAMP"/>
+        </collection>
     </resultMap>
     <!--查询博客总数-->
     <select id="queryAllCount" resultType="int">
         select count(article_id) from blog
     </select>
+
     <!--查询浏览总数-->
     <select id="queryAllVisits" resultType="int">
         select sum(article_visits_count) from blog
     </select>
+
     <!--查询单个-->
     <select id="queryById" resultMap="BlogMap">
         select article_id,
@@ -49,8 +57,18 @@
                article_update_time,
                article_visits_count,
                article_comment_count,
-               article_like_count
-        from db_myblog.blog
+               article_like_count,
+               type.type_id,
+               type.type_name,
+               type.type_content,
+               type.type_create_time
+        from blog
+                 left join
+             blog_type
+             on blog.article_id = blog_type.blog_id
+                 left join
+             type
+             on blog_type.type_id = type.type_id
     </select>
 
     <select id="queryAllByLimit" resultMap="BlogMap">
