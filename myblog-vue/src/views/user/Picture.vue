@@ -25,8 +25,8 @@ export default {
   },
 
   created() {
-    axios.get('/picture/selectAll').then(successResponse => {
-      this.picture = successResponse.data;
+    axios.get('/picture/selectAll').then(res => {
+      this.picture = res.data;
     }).catch(function (error) {
       console.log(error);
     });

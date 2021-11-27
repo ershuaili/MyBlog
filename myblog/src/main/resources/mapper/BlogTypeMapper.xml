@@ -6,88 +6,34 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="blogId" column="blog_id" jdbcType="INTEGER"/>
         <result property="typeId" column="type_id" jdbcType="INTEGER"/>
+        <association property="blog" javaType="Blog">
+            <result property="articleId" column="article_id" jdbcType="INTEGER"/>
+            <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
+            <result property="articleFirstPicture" column="article_first_picture" jdbcType="VARCHAR"/>
+            <result property="articleDescription" column="article_description" jdbcType="VARCHAR"/>
+            <result property="articleContent" column="article_content" jdbcType="VARCHAR"/>
+            <result property="articleCreateTime" column="article_create_time" jdbcType="TIMESTAMP"/>
+            <result property="articleUpdateTime" column="article_update_time" jdbcType="TIMESTAMP"/>
+            <result property="articleVisitsCount" column="article_visits_count" jdbcType="INTEGER"/>
+            <result property="articleCommentCount" column="article_comment_count" jdbcType="INTEGER"/>
+            <result property="articleLikeCount" column="article_like_count" jdbcType="INTEGER"/>
+        </association>
+        <association property="type" javaType="Type">
+            <result property="typeId" column="type_id" jdbcType="INTEGER"/>
+            <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+            <result property="typeContent" column="type_content" jdbcType="VARCHAR"/>
+            <result property="typeCreateTime" column="type_create_time" jdbcType="TIMESTAMP"/>
+        </association>
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="BlogTypeMap">
-        select id,
-               blog_id,
-               type_id
-        from db_myblog.blog_type
-        where id = #{id}
-    </select>
-
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="BlogTypeMap">
-        select id,
-               blog_id,
-               type_id
-        from db_myblog.blog_type
-        limit #{offset}, #{limit}
-    </select>
-
-    <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BlogTypeMap">
-        select
-        id, blog_id, type_id
-        from db_myblog.blog_type
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="blogId != null">
-                and blog_id = #{blogId}
-            </if>
-            <if test="typeId != null">
-                and type_id = #{typeId}
-            </if>
-        </where>
+        select article_title,
+               type_id
+        from blog,
+             blog_type
+        where blog_type.blog_id = blog.article_id
+          and blog_type.type_id = 3
     </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into db_myblog.blog_type(blog_id, type_id)
-        values (#{blogId}, #{typeId})
-    </insert>
-
-    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into db_myblog.blog_type(blog_id, type_id)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.blogId}, #{entity.typeId})
-        </foreach>
-    </insert>
-
-    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into db_myblog.blog_type(blog_id, type_id)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.blogId}, #{entity.typeId})
-        </foreach>
-        on duplicate key update
-        blog_id = values(blog_id) , type_id = values(type_id)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update db_myblog.blog_type
-        <set>
-            <if test="blogId != null">
-                blog_id = #{blogId},
-            </if>
-            <if test="typeId != null">
-                type_id = #{typeId},
-            </if>
-        </set>
-        where id = #{id}
-    </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete
-        from db_myblog.blog_type
-        where id = #{id}
-    </delete>
-
 </mapper>
 

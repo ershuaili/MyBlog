@@ -13,49 +13,15 @@ import java.util.List;
 public interface TypeService {
 
     /**
-     * 查询所有数据
-     * @return 数据集合
+     * 查询所有分类信息
+     * @return 分类列表
      */
     List<Type> queryAll();
 
     /**
-     * 通过ID查询单条数据
-     *
-     * @param typeId 主键
-     * @return 实例对象
+     * 查询分类信息通过 分类名称
+     * @param typeName 分类名称
+     * @return 分类信息
      */
-    Type queryById(Long typeId);
-
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
-     * @return 对象列表
-     */
-    List<Type> queryAllByLimit(int offset, int limit);
-
-    /**
-     * 新增数据
-     *
-     * @param type 实例对象
-     * @return 实例对象
-     */
-    Type insert(Type type);
-
-    /**
-     * 修改数据
-     *
-     * @param type 实例对象
-     * @return 实例对象
-     */
-    Type update(Type type);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param typeId 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Long typeId);
+    Type queryByTypeName(String typeName);
 }

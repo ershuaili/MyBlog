@@ -33,7 +33,7 @@ public class Type implements Serializable {
     private Date typeCreateTime;
 
     /**
-     * 与Blog的关联查询 一个分类多个博客
+     * 一个分类可以有多个博客
      */
     private List<Blog> blogs;
 }

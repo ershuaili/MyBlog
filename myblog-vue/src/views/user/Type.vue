@@ -4,29 +4,66 @@
     <div class="message">
       <div class="message_left">分类</div>
       <div class="message_right">
-        一共<span class="right_number">1234</span>个
+        一共<span class="right_number">{{ types.length }}</span>个
       </div>
     </div>
+
     <div class="labels">
-      <a class="label" href="#">Java</a>
-      <a class="label" href="#">css</a>
-      <a class="label" href="#">Docker</a>
-      <a class="label" href="#">其他</a>
-      <a class="label" href="#">生活</a>
-      <a class="label" href="#">学习</a>
-      <a class="label" href="#">Java</a>
+      <a v-for="(item,index) in types" :key="index" class="label" @click="getBlogsByType">{{ item.typeName }}</a>
     </div>
   </div>
   <!-- 标签页-主体 -->
-  <BlogList/>
+
 </template>
 
 <script>
-import BlogList from "@/views/user/blog/BlogList";
+import axios from "axios";
 
 export default {
   name: "Types",
-  components: {BlogList}
+  data() {
+    return {
+      types: [
+        {
+          typeId: '',
+          typeName: '',
+          typeContent: '',
+          typeCreateTime: '',
+          blogs: [
+            {
+              articleId: '',
+              articleTitle: '',
+              articleFirstPicture: '',
+              articleDescription: '',
+              articleContent: '',
+              articleCreateTime: '',
+              articleUpdateTime: '',
+              articleVisitsCount: '',
+              articleCommentCount: '',
+              articleLikeCount: '',
+              types: '',
+            }
+          ]
+        }
+      ],
+
+    }
+  },
+  created() {
+    // 获取分类所有信息
+    axios.get('/type/queryAll').then(res => {
+      this.types = res.data;
+      console.log(this.types)
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
+
+  methods: {
+    getBlogsByType() {
+      alert("111")
+    }
+  }
 }
 </script>
 

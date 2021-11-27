@@ -7,7 +7,7 @@
         <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
         <result property="typeContent" column="type_content" jdbcType="VARCHAR"/>
         <result property="typeCreateTime" column="type_create_time" jdbcType="TIMESTAMP"/>
-        <association property="blog" javaType="Blog">
+        <collection property="blogs" ofType="Blog">
             <result property="articleId" column="article_id" jdbcType="INTEGER"/>
             <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
             <result property="articleFirstPicture" column="article_first_picture" jdbcType="VARCHAR"/>
@@ -18,99 +18,24 @@
             <result property="articleVisitsCount" column="article_visits_count" jdbcType="INTEGER"/>
             <result property="articleCommentCount" column="article_comment_count" jdbcType="INTEGER"/>
             <result property="articleLikeCount" column="article_like_count" jdbcType="INTEGER"/>
-        </association>
+        </collection>
     </resultMap>
 
-    <!--查询所有分页数据-->
+    <!--查询所有分类信息-->
     <select id="queryAll" resultMap="TypeMap">
-        select blog.article_id,
-               blog.article_title,
-               blog.article_first_picture,
-               blog.article_description,
-               blog.article_content,
-               blog.article_create_time,
-               blog.article_update_time,
-               blog.article_visits_count,
-               blog.article_comment_count,
-               blog.article_like_count,
-               type.type_name
-        from blog,
-             type,
+        select type_id, type_name, type_content, type_create_time
+        from type
+    </select>
+
+    <!--通过分类名查询一个分类的所有信息-->
+    <select id="queryByTypeName" resultMap="TypeMap">
+        select type.*, blog.article_title
+        from type,
+             blog,
              blog_type
-        where blog_type.blog_id = blog.article_id
-          and blog_type.type_id = type.type_id;
+        where blog_type.type_id = type.type_id
+          and blog_type.blog_id = article_id
+          and type.type_name = #{typeName};
     </select>
-
-    <!--查询单个-->
-    <select id="queryById" resultMap="TypeMap">
-        select type_id,
-               type_name,
-               type_content,
-               type_create_time
-        from db_myblog.type
-        where type_id = #{typeId}
-    </select>
-
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="TypeMap">
-        select type_id,
-               type_name,
-               type_content,
-               type_create_time
-        from db_myblog.type
-        limit #{offset}, #{limit}
-    </select>
-
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="TypeMap">
-        select
-        type_id, type_name, type_content, type_create_time
-        from db_myblog.type
-        <where>
-            <if test="typeId != null">
-                and type_id = #{typeId}
-            </if>
-            <if test="typeName != null and typeName != ''">
-                and type_name = #{typeName}
-            </if>
-            <if test="typeContent != null and typeContent != ''">
-                and type_content = #{typeContent}
-            </if>
-            <if test="typeCreateTime != null">
-                and type_create_time = #{typeCreateTime}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="typeId" useGeneratedKeys="true">
-        insert into db_myblog.type(type_name, type_content, type_create_time)
-        values (#{typeName}, #{typeContent}, #{typeCreateTime})
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update db_myblog.type
-        <set>
-            <if test="typeName != null and typeName != ''">
-                type_name = #{typeName},
-            </if>
-            <if test="typeContent != null and typeContent != ''">
-                type_content = #{typeContent},
-            </if>
-            <if test="typeCreateTime != null">
-                type_create_time = #{typeCreateTime},
-            </if>
-        </set>
-        where type_id = #{typeId}
-    </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete
-        from db_myblog.type
-        where type_id = #{typeId}
-    </delete>
-
 </mapper>
 

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * (Type)表控制层
  *
@@ -23,14 +25,21 @@ public class TypeController {
     private TypeService typeService;
 
     /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
+     * 查询所有分类信息
+     * @return 分类列表
      */
-    @GetMapping("selectOne")
-    public Type selectOne(Long id) {
-        return this.typeService.queryById(id);
+    @GetMapping("/queryAll")
+    public List<Type> queryAll() {
+        return typeService.queryAll();
     }
 
+    /**
+     * 通过分类名获取分类信息
+     * @param typeName 分类名
+     * @return 分类信息
+     */
+    @GetMapping("/queryByTypeName")
+    public Type queryByTypeName(String typeName) {
+        return typeService.queryByTypeName(typeName);
+    }
 }

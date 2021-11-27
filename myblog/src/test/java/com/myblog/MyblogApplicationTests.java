@@ -28,7 +28,7 @@ class MyblogApplicationTests {
 
     @Test
     void test() {
-        System.out.println(blogMapper.queryAll());
+        System.out.println(typeMapper.queryAll());
     }
 
     @Test
