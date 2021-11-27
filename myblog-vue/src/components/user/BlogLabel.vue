@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "BlogLabel",
@@ -44,31 +43,15 @@ export default {
   },
 
   methods: {
-    // 获取博客分页信息
-    getLength() {
-      axios.get('/blog/queryCommonMessage').then(res => {
-        // 五个标签为一页
-        this.$store.dispatch('setPageNum', Math.ceil((res.data.BlogCount) / 5))
-      }).catch(function (error) {
-        console.log(error);
-      })
-    },
     // 分页查询博客信息
-    getBlogList() {
-      axios.get('/blog/queryBlogByLimit', {params: {page: this.$store.state.paginate.pageShow}}).then(res => {
-        this.blogs = res.data;
-        // 页面数据渲染后加载底部导航
-        this.getLength()
-      }).catch(function (error) {
-        console.log(error);
-      });
+    getBlogList(e) {
+      this.blogs = e
     },
 
     // 根据标签获取博客信息
     getBlogListByType(e) {
-      this.blogs=e
+      this.blogs = e
     },
-
 
     // 转跳博客详情页面
     toBlog(id) {
@@ -79,15 +62,6 @@ export default {
       window.open(routeUrl.href, '_blank');
     },
   },
-  // 监听页面数据发生变化 重新渲染博客列表 分页
-  watch: {
-    "$store.state.paginate": {
-      deep: true,//深度监听设置为 true
-      handler: function () {
-        this.getBlogList();
-      }
-    }
-  }
 }
 </script>
 
