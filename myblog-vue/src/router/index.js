@@ -44,7 +44,7 @@ const routes = [
             {
                 path: '/blog',
                 name: 'Blog',
-                component: () => import('../views/user/blog/Blog.vue'),
+                component: () => import('../views/user/Blog.vue'),
                 meta: {title: '博客详情'},
                 props($route) {
                     return {title: $route.params.title}

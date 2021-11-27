@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import BlogList from "@/views/user/blog/BlogList";
+import BlogList from "@/views/user/BlogList";
 
 export default {
   name: "Index",

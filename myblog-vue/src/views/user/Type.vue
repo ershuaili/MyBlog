@@ -13,14 +13,18 @@
     </div>
   </div>
   <!-- 标签页-主体 -->
-
+  <BlogLabel ref="child"/>
+  <UserBottom v-if="this.isShow"/>
 </template>
 
 <script>
 import axios from "axios";
+import BlogLabel from "@/components/user/BlogLabel";
+import UserBottom from "@/components/user/UserBottom";
 
 export default {
   name: "Types",
+  components: {UserBottom, BlogLabel},
   data() {
     return {
       types: [
@@ -46,22 +50,34 @@ export default {
           ]
         }
       ],
-
+      isShow: false,
     }
   },
   created() {
     // 获取分类所有信息
     axios.get('/type/queryAll').then(res => {
       this.types = res.data;
-      console.log(this.types)
+    }).catch(function (error) {
+      console.log(error);
+    });
+    // 进入页面显示列表
+    axios.get('/type/queryByTypeName', {params: {typeName: 'Java'}}).then(res => {
+      this.$refs.child.getBlogListByType(res.data.blogs);
+      this.isShow = res.data.blogs.length >= 2;
     }).catch(function (error) {
       console.log(error);
     });
   },
 
   methods: {
-    getBlogsByType() {
-      alert("111")
+    // 根据标签获取博客信息
+    getBlogsByType(e) {
+      axios.get('/type/queryByTypeName', {params: {typeName: e.target.innerHTML}}).then(res => {
+        this.$refs.child.getBlogListByType(res.data.blogs);
+        this.isShow = res.data.blogs.length >= 2;
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }
 }

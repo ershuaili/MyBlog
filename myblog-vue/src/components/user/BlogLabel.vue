@@ -16,18 +16,14 @@
       <img alt="" v-bind:src="item.articleFirstPicture">
     </div>
   </div>
-  <Paginate v-if="isShow"/>
-  <UserBottom v-if="isShow"/>
 </template>
 
 <script>
 import axios from "axios";
-import UserBottom from "@/components/user/UserBottom";
-import Paginate from "@/components/common/Paginate";
 
 export default {
-  name: "BlogList",
-  components: {Paginate, UserBottom},
+  name: "BlogLabel",
+
   data() {
     return {
       blogs: [
@@ -44,13 +40,9 @@ export default {
           articleLikeCount: '',
         }
       ],
-      isShow:false,
     }
   },
-  // 获取博客列表
-  created() {
-    this.getBlogList();
-  },
+
   methods: {
     // 获取博客分页信息
     getLength() {
@@ -61,18 +53,22 @@ export default {
         console.log(error);
       })
     },
-
     // 分页查询博客信息
-    getBlogList(){
+    getBlogList() {
       axios.get('/blog/queryBlogByLimit', {params: {page: this.$store.state.paginate.pageShow}}).then(res => {
         this.blogs = res.data;
         // 页面数据渲染后加载底部导航
         this.getLength()
-        this.isShow = true;
       }).catch(function (error) {
         console.log(error);
       });
     },
+
+    // 根据标签获取博客信息
+    getBlogListByType(e) {
+      this.blogs=e
+    },
+
 
     // 转跳博客详情页面
     toBlog(id) {
@@ -83,7 +79,7 @@ export default {
       window.open(routeUrl.href, '_blank');
     },
   },
-  // 监听页面数据发生变化 重新渲染博客列表
+  // 监听页面数据发生变化 重新渲染博客列表 分页
   watch: {
     "$store.state.paginate": {
       deep: true,//深度监听设置为 true
@@ -135,5 +131,4 @@ img {
   vertical-align: middle;
   border-radius: 5px;
 }
-
 </style>
