@@ -18,8 +18,8 @@
         </span>
       </td>
       <td>
-        <button type="button" class="reviseButton">修改</button>
-        <button type="button" class="deleteButton">删除</button>
+        <button type="button" class="reviseButton" @click="reviseBlog">修改</button>
+        <button type="button" class="deleteButton" @click="deleteBlog">删除</button>
       </td>
     </tr>
     </tbody>
@@ -60,70 +60,21 @@ export default {
 
   created() {
     axios.get('/blog/queryAll').then(res => {
-      this.blogs=res.data
+      this.blogs = res.data
     }).catch(function (error) {
       console.log(error);
     });
   },
 
-  methods: {}
+  methods: {
+    reviseBlog() {
+      alert("修改博客")
+    },
+    deleteBlog() {
+      alert("删除博客")
+    }
+  }
 }
 </script>
 
-<style scoped>
-table {
-  width: 100%;
-  height: 100%;
-  border-collapse: collapse;
-}
-
-table, tr, td {
-  padding-left: 10px;
-  border: 1px solid #E3E3E3FF;
-}
-
-thead {
-  background-color: rgb(223, 240, 216);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: 18px;
-  height: 40px;
-}
-
-tbody {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: 15px;
-  height: 100px;
-}
-
-tbody tr {
-  height: 50px;
-}
-
-.tableType{
-  margin: 5px;
-  padding: 5px;
-  border-radius: 30px;
-  background-color: #69b469;
-}
-.reviseButton {
-  background-color: rgb(133, 206, 97);
-}
-
-.deleteButton {
-  background-color: rgb(247, 137, 137);
-}
-
-.reviseButton, .deleteButton { /* 按钮美化 */
-  margin-left: 10px;
-  width: 70px; /* 宽度 */
-  height: 30px; /* 高度 */
-  border-width: 0; /* 边框宽度 */
-  border-radius: 5px; /* 边框半径 */
-  cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
-  outline: none; /* 不显示轮廓线 */
-  color: white; /* 字体颜色 */
-  font-size: 17px; /* 字体大小 */
-}
-</style>
+<style src="../../../static/myTable.css"/>

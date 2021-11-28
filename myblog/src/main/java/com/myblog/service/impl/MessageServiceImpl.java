@@ -6,9 +6,7 @@ import com.myblog.service.MessageService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * (Message)表服务实现类
@@ -20,13 +18,16 @@ import java.util.Map;
 public class MessageServiceImpl implements MessageService {
     @Resource
     private MessageMapper messageMapper;
-    public Map<String, Object> queryMessageDetails(){
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("总共信息条数",queryAllNumber());
-        map.put("可分条数",queryAllNumber()/10);
-        return map;
-    }
 
+    /**
+     * 查询所有留言数据
+     *
+     * @return 留言数据集合
+     */
+    @Override
+    public List<Message> queryAll() {
+        return this.messageMapper.queryAll();
+    }
 
     /**
      * 查询数据总数

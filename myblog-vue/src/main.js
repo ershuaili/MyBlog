@@ -7,7 +7,7 @@ import axios from 'axios'
 // 让ajax携带cookie
 // axios.defaults.withCredentials=true;
 
-// 设置反向代理，前端请求默认发送到 http://localhost:8899/api
+// 设置反向代理，前端请求默认发送到 http://localhost:8899
 axios.defaults.baseURL = 'http://localhost:8899'
 
 createApp(App).use(router).use(store).mount('#app')

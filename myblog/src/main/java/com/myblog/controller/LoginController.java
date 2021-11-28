@@ -3,11 +3,13 @@ package com.myblog.controller;
 import com.myblog.entity.User;
 import com.myblog.service.UserService;
 import com.myblog.util.JwtUtil;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +26,17 @@ public class LoginController {
     private UserService userService;
 
     /**
+     * 查询所有用户
+     * @return 用户列表
+     */
+    @GetMapping("/queryAll")
+    public List<User> queryAll() {
+        return userService.queryAll();
+    }
+
+    /**
      * 用户token校验
+     *
      * @param token token
      * @return 用户信息
      */

@@ -12,6 +12,16 @@
         <result property="userRights" column="user_rights" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="queryAll" resultMap="UserMap">
+        select user_id,
+               user_nickname,
+               user_email,
+               user_head_portrait,
+               user_create_time,
+               user_rights
+        from db_myblog.user
+    </select>
+
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select user_id,

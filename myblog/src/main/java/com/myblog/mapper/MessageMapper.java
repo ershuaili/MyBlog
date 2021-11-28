@@ -13,6 +13,13 @@ import java.util.List;
  */
 @Mapper
 public interface MessageMapper {
+
+    /**
+     * 查询所有留言数据
+     * @return 留言数据集合
+     */
+    List<Message> queryAll();
+
     /**
      * 查询数据总数
      * @return 数据总数

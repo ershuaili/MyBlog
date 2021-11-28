@@ -1,8 +1,9 @@
 package com.myblog.entity;
+
 import lombok.Data;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Message)实体类

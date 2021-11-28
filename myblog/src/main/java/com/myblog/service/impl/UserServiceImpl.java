@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>描述: [] </p>
@@ -22,6 +23,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    /**
+     * 查询所有用户
+     *
+     * @return 用户列表
+     */
+    @Override
+    public List<User> queryAll() {
+        return this.userMapper.queryAll();
+    }
 
     /**
      * 查询用户通过用户名

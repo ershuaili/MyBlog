@@ -3,6 +3,8 @@ package com.myblog.mapper;
 import com.myblog.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * (MyUserDetails)表数据库访问层
  *
@@ -11,6 +13,13 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper {
+
+    /**
+     * 查询所有用户
+     * @return 用户列表
+     */
+    List<User> queryAll();
+
     /**
      * 查询用户通过用户名
      * @param userNickname 用户名

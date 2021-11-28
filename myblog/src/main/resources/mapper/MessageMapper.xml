@@ -18,9 +18,16 @@
         </association>
     </resultMap>
 
+    <!--查询所有留言数据-->
+    <select id="queryAll" resultMap="MessageMap">
+        select message_id, message_user_nickname, message_content, message_create_time
+        from message
+    </select>
+
     <!--查询数据总数-->
     <select id="queryAllNumber" resultType="int">
-        select count(message_id) from db_myblog.message
+        select count(message_id)
+        from db_myblog.message
     </select>
 
     <!--分页查询指数据-->

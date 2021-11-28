@@ -26,11 +26,21 @@ public class MessageController {
     private MessageService messageService;
 
     /**
+     * 查询所有留言数据
+     * @return 数据列表
+     */
+    @GetMapping("/queryAll")
+    public List<Message> queryAll() {
+        return messageService.queryAll();
+    }
+
+    /**
      * 查询数据总数
+     *
      * @return 数据总数
      */
     @GetMapping("/queryAllNumber")
-    public int queryAllNumber(){
+    public int queryAllNumber() {
         return messageService.queryAllNumber();
     }
 
