@@ -1,6 +1,6 @@
 <template>
   <div style="height: 650px;">
-    <md-editor v-model="text" :toolbarsExclude="toolbarsExclude" class="meEditor"/>
+    <md-editor v-model="text" :toolbarsExclude="toolbarsExclude" :onSave="onSave" class="meEditor"/>
   </div>
 </template>
 
@@ -16,6 +16,13 @@ export default {
       text: '',
       toolbarsExclude: ['github'],
     };
+  },
+
+  methods:{
+    // 保存事件
+    onSave(v){
+      console.log(v)
+    }
   },
 }
 </script>
