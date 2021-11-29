@@ -8,6 +8,7 @@ import axios from 'axios'
 // axios.defaults.withCredentials=true;
 
 // 设置反向代理，前端请求默认发送到 http://localhost:8899
+// axios.defaults.baseURL = 'http://47.96.145.7:8083'
 axios.defaults.baseURL = 'http://localhost:8899'
 
 createApp(App).use(router).use(store).mount('#app')
