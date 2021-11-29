@@ -2,7 +2,7 @@
   <div class="message">
     <!-- 评论输入框 -->
     <div class="message_input">
-      <textarea v-model="input_textarea" class="input_textarea"> </textarea>
+      <textarea v-model="input_textarea" class="input_textarea" placeholder="来都来了讲点啥吧QWQ"/>
       <button @click="textareaSubmit" type="button" class="input_button">提交</button>
     </div>
     <!-- 评论列表 -->
