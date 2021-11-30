@@ -38,4 +38,8 @@ public class Comment implements Serializable {
      * 父评论id
      */
     private Long parentCommentId;
+    /**
+     * 表连接通过评论查询用户信息
+     */
+    private User user;
 }

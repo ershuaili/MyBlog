@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * (Comment)表控制层
  *
@@ -23,15 +25,12 @@ public class CommentController {
     private CommentService commentService;
 
     /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
+     * 根据博客信息查询博客所有评论
+     * @param blogId 博客id
+     * @return 评论列表
      */
-    @GetMapping("selectOne")
-    public Comment selectOne(Long id) {
-        return this.commentService.queryById(id);
+    @GetMapping("/queryAllByBlogId")
+    public List<Comment> queryAllByBlogId(Long blogId) {
+        return commentService.queryAllByBlogId(blogId);
     }
-
-
 }

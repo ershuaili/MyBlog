@@ -13,7 +13,22 @@
     </div>
     <!--评论展示框-->
     <div>
-      <h1>展示评论</h1>
+      <div v-for="(item,index) in messages" :key="index" class="sub_message">
+        <!--头像-->
+        <img class="message_img" v-bind:src="item.user.userHeadPortrait" alt="">
+        <!--内容-->
+        <div class="message_details">
+          <div class="message_label">
+            <span class="message_userName">{{ item.user.userNickname }}</span>
+            <span class="message_userLabel_admin" v-if="item.user.userRights==='ADMIN'">管理员</span>
+            <span class="message_userLabel" v-if="item.user.userRights==='USER'">游客</span>
+            <span class="message_time">{{ item.messageCreateTime }}</span>
+          </div>
+          <div class="message_content">
+            <div>{{item.messageContent}}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
