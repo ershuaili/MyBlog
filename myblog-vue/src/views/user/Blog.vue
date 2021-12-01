@@ -13,7 +13,7 @@
     </div>
     <!--评论展示框-->
     <div>
-      <div v-for="(item,index) in messages" :key="index" class="sub_message">
+      <div v-for="(item,index) in comment" :key="index" class="sub_message">
         <!--头像-->
         <img class="message_img" v-bind:src="item.user.userHeadPortrait" alt="">
         <!--内容-->
@@ -22,10 +22,10 @@
             <span class="message_userName">{{ item.user.userNickname }}</span>
             <span class="message_userLabel_admin" v-if="item.user.userRights==='ADMIN'">管理员</span>
             <span class="message_userLabel" v-if="item.user.userRights==='USER'">游客</span>
-            <span class="message_time">{{ item.messageCreateTime }}</span>
+            <span class="message_time">{{ item.commentCreateTime }}</span>
           </div>
           <div class="message_content">
-            <div>{{item.messageContent}}</div>
+            <div>{{ item.commentContent }}</div>
           </div>
         </div>
       </div>
@@ -57,17 +57,40 @@ export default {
           articleCommentCount: '',
           articleLikeCount: '',
         }
-      ]
+      ],
+
+      comment: [
+        {
+          commentArticleId: '',
+          commentContent: '',
+          commentCreateTime: '',
+          commentId: '',
+          commentUserId: '',
+          parentCommentId: '',
+          user: {
+            userNickname: '',
+            userHeadPortrait: '',
+            userRights: ''
+          },
+        }
+      ],
     }
   },
 
   created() {
+    // 获取博客信息
     axios.get('/blog/selectOne?id=' + this.$route.query.id).then(res => {
-
       this.blog = res.data;
       document.title = res.data.articleTitle
     }).catch(function (error) {
       console.log(error);
+    });
+
+    // 根据博客id获取评论信息
+    axios.get('/comment/queryAllByBlogId', {params: {blogId: this.$route.query.id}}).then(res => {
+      this.comment = res.data
+    }).catch(function (error) {
+      console.log(error)
     });
   },
 }
@@ -85,7 +108,7 @@ export default {
 
 .comment {
   width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
   background: rgba(210, 206, 206, 0.7);
   padding-right: 50px;
   padding-left: 50px;
@@ -140,6 +163,73 @@ export default {
 .input_button {
   float: right;
   background-color: antiquewhite;
+}
+
+/* 评论 */
+.sub_message {
+  display: flex;
+  width: 100%;
+  padding-top: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.message_img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 10px;
+  float: left;
+
+}
+
+.message_details {
+  height: auto;
+  flex-grow: 1;
+}
+
+.message_label {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/*用户标签*/
+.message_userName {
+  margin: 0 10px;
+  width: 20px;
+  font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+  font-weight: bold;
+}
+
+.message_userLabel {
+  font-size: 15px;
+  background: rgba(130, 130, 130);
+  color: #FFFFFF;
+  margin: 3px;
+  padding: 1px 10px;
+  border-radius: 5px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.message_userLabel_admin {
+  font-size: 15px;
+  background: rgba(255, 165, 30);
+  color: #FFFFFF;
+  margin: 3px;
+  padding: 1px 10px;
+  border-radius: 5px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.message_time {
+  padding: 0 10px;
+  color: #919191;
+}
+
+/* 评论内容 */
+.message_content {
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 @media screen and (max-width: 768px) {

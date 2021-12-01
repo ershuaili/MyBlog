@@ -22,6 +22,13 @@ public interface CommentMapper {
     List<Comment> queryAllByBlogId(Long blogId);
 
     /**
+     * 查询某一个评论的所有子评论
+     * @param commentId 父评论id
+     * @return 评论信息列表
+     */
+    List<Comment> queryChildrenComment(Long commentId);
+
+    /**
      * 通过主键删除数据
      *
      * @param messageId 主键
