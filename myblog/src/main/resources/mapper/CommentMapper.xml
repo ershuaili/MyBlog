@@ -53,6 +53,14 @@
           and parent_comment_id = #{parentId}
     </select>
 
+    <!--新增所有列-->
+    <insert id="insertComment" keyProperty="commentId" useGeneratedKeys="true">
+        insert into db_myblog.comment(db_myblog.comment.comment_user_id,
+                                      db_myblog.comment.comment_article_id, db_myblog.comment.comment_content,
+                                      db_myblog.comment.comment_create_time, db_myblog.comment.parent_comment_id)
+        values (#{commentUserId}, #{commentArticleId}, #{commentContent}, now(), #{parentCommentId})
+    </insert>
+
     <!--通过主键删除-->
     <delete id="deleteById">
         delete

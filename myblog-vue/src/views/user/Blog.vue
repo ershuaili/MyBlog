@@ -9,7 +9,7 @@
     <!-- 评论输入框 -->
     <div class="message_input">
       <textarea class="input_textarea" placeholder="来都来了讲点啥吧QWQ"/>
-      <button type="button" class="input_button">提交</button>
+      <button @click="textareaSubmit" type="button" class="input_button">提交</button>
     </div>
     <!--评论展示框-->
     <div>
@@ -55,6 +55,7 @@
 import axios from "axios";
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
+import router from "../../router";
 
 export default {
   name: "Blog",
@@ -75,7 +76,6 @@ export default {
           articleLikeCount: '',
         }
       ],
-
       comment: [
         {
           commentArticleId: '',
@@ -126,6 +126,47 @@ export default {
     }).catch(function (error) {
       console.log(error)
     });
+  },
+
+  methods: {
+    textareaSubmit() {
+      if (localStorage.getItem("token") === null) {
+        alert("您还没登录请先登录")
+        router.push("/login");
+      } else {
+        let params = new URLSearchParams();
+        params.append("token", localStorage.getItem("token"))
+        axios.post('/user/checkToken', params)
+            .then(res => {
+              console.log(res)
+              // let params = new URLSearchParams();
+              // // 评论用户id
+              // params.append("commentUserId", res.data.nickname)
+              // // 评论文章id
+              // params.append("commentArticleId", this.input_textarea)
+              // // 评论内容
+              // params.append("commentContent", this.input_textarea)
+              // // 评论父评论id
+              // params.append("parentCommentId", this.input_textarea)
+              // axios.post('/comment/insert', params)
+              //     .then(() => {
+              //       // 清空输入框
+              //       this.input_textarea = "";
+              //       // 消息数加一
+              //       this.messages++;
+              //       // 刷新消息列表
+              //       this.$refs.message.queryMessageByLimit();
+              //       // 刷新分页信息
+              //       this.$store.dispatch('setPageNum', Math.ceil((this.messages) / 5))
+              //     })
+            }).catch(function (error) {
+          alert("登录信息错误,返回登录");
+          router.push("/login");
+          console.log(error);
+        });
+      }
+    },
+
   },
 }
 </script>

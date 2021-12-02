@@ -4,6 +4,7 @@ import com.myblog.entity.Comment;
 import com.myblog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,7 @@ public class CommentController {
 
     /**
      * 根据博客信息查询博客所有评论
+     *
      * @param blogId 博客id
      * @return 评论列表
      */
@@ -34,4 +36,8 @@ public class CommentController {
         return commentService.queryAllByBlogId(blogId);
     }
 
+    @PostMapping("/insert")
+    public boolean insertComment(Comment comment) {
+        return commentService.insertComment(comment);
+    }
 }

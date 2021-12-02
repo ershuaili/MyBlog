@@ -19,6 +19,14 @@ public interface CommentService {
      */
     List<Comment> queryAllByBlogId(Long blogId);
 
+
+    /**
+     * 新增用户评论
+     * @param comment 用户评论实体
+     * @return boolean
+     */
+    boolean insertComment(Comment comment);
+
     /**
      * 通过主键删除数据
      *

@@ -29,6 +29,13 @@ public interface CommentMapper {
     List<Comment> queryParentCommentById(Long parentId);
 
     /**
+     * 新增用户评论
+     * @param comment 用户评论实体
+     * @return boolean
+     */
+    boolean insertComment(Comment comment);
+
+    /**
      * 通过主键删除数据
      *
      * @param messageId 主键

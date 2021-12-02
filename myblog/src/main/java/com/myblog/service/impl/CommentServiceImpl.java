@@ -42,6 +42,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
+     * 新增用户评论
+     *
+     * @param comment 用户评论实体
+     * @return boolean
+     */
+    @Override
+    public boolean insertComment(Comment comment) {
+        return this.commentMapper.insertComment(comment);
+    }
+
+    /**
      * 通过主键删除数据
      *
      * @param messageId 主键

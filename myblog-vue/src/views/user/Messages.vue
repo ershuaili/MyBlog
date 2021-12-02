@@ -63,7 +63,7 @@ export default {
               params.append("messageUserNickname", res.data.nickname)
               params.append("messageContent", this.input_textarea)
               axios.post('/message/insert', params)
-                  .then(res => {
+                  .then(() => {
                     // 清空输入框
                     this.input_textarea = "";
                     // 消息数加一
