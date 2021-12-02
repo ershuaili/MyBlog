@@ -33,4 +33,5 @@ public class CommentController {
     public List<Comment> queryAllByBlogId(Long blogId) {
         return commentService.queryAllByBlogId(blogId);
     }
+
 }

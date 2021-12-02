@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (Comment)实体类
@@ -42,4 +43,8 @@ public class Comment implements Serializable {
      * 表连接通过评论查询用户信息
      */
     private User user;
+    /**
+     * 子评论信息
+     */
+    private List<Comment> childComments;
 }

@@ -19,7 +19,6 @@
             <result property="userRights" column="user_rights" jdbcType="VARCHAR"/>
         </association>
     </resultMap>
-
     <!--查询父评论信息通过博客-->
     <select id="queryAllByBlogId" resultMap="CommentMap">
         select comment_id,
@@ -37,8 +36,8 @@
           and comment_user_id = user_id
           and parent_comment_id is null;
     </select>
-    <!--查询某一评论的所有子评论-->
-    <select id="queryChildrenComment" resultMap="CommentMap">
+    <!--根据父评论查询所有子评论信息-->
+    <select id="queryParentCommentById" resultMap="CommentMap">
         select comment_id,
                comment_user_id,
                comment_article_id,
@@ -50,8 +49,8 @@
                user.user_rights
         from db_myblog.comment,
              db_myblog.user
-        where parent_comment_id = #{commetId}
-          and comment_user_id = user_id
+        where comment_user_id = user_id
+          and parent_comment_id = #{parentId}
     </select>
 
     <!--通过主键删除-->

@@ -13,7 +13,7 @@
     </div>
     <!--评论展示框-->
     <div>
-      <div v-for="(item,index) in comment" :key="index" class="sub_message">
+      <div v-for="(item,index) in comment" :key="index" class="sub_message father_message">
         <!--头像-->
         <img class="message_img" v-bind:src="item.user.userHeadPortrait" alt="">
         <!--内容-->
@@ -25,7 +25,25 @@
             <span class="message_time">{{ item.commentCreateTime }}</span>
           </div>
           <div class="message_content">
+            <!--父评论内容-->
             <div>{{ item.commentContent }}</div>
+            <!--子评论内容-->
+            <div v-for="(childItem,index) in item.childComments" :key="index" class="sub_message">
+              <!--头像-->
+              <img class="message_img" v-bind:src="childItem.user.userHeadPortrait" alt="">
+              <!--内容-->
+              <div class="message_details">
+                <div class="message_label">
+                  <span class="message_userName">{{ childItem.user.userNickname }}</span>
+                  <span class="message_userLabel_admin" v-if="childItem.user.userRights==='ADMIN'">管理员</span>
+                  <span class="message_userLabel" v-if="childItem.user.userRights==='USER'">游客</span>
+                  <span class="message_time">{{ childItem.commentCreateTime }}</span>
+                </div>
+                <div class="message_content">
+                  <div>{{ childItem.commentContent }}</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -37,11 +55,10 @@
 import axios from "axios";
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import Message from "@/components/user/Message";
 
 export default {
   name: "Blog",
-  components: {Message, MdEditor},
+  components: {MdEditor},
   data() {
     return {
       blog: [
@@ -72,6 +89,22 @@ export default {
             userHeadPortrait: '',
             userRights: ''
           },
+          // 子评论
+          childComments: [
+            {
+              commentArticleId: '',
+              commentContent: '',
+              commentCreateTime: '',
+              commentId: '',
+              commentUserId: '',
+              parentCommentId: '',
+              user: {
+                userNickname: '',
+                userHeadPortrait: '',
+                userRights: ''
+              },
+            }
+          ],
         }
       ],
     }
@@ -89,6 +122,7 @@ export default {
     // 根据博客id获取评论信息
     axios.get('/comment/queryAllByBlogId', {params: {blogId: this.$route.query.id}}).then(res => {
       this.comment = res.data
+      console.log(this.comment)
     }).catch(function (error) {
       console.log(error)
     });
@@ -172,6 +206,12 @@ export default {
   padding-top: 10px;
   margin-top: 10px;
   overflow: hidden;
+}
+
+.father_message {
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: #9a9595;
 }
 
 .message_img {

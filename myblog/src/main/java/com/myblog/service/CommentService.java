@@ -3,7 +3,6 @@ package com.myblog.service;
 import com.myblog.entity.Comment;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * (Comment)表服务接口
@@ -13,21 +12,12 @@ import java.util.Map;
  */
 public interface CommentService {
 
-    Map<String, Object> test(Long blogId);
-
     /**
      * 通过博客查询评论信息
      * @param blogId 博客id
      * @return 评论信息列表
      */
     List<Comment> queryAllByBlogId(Long blogId);
-
-    /**
-     * 查询某一个评论的所有子评论
-     * @param commentId 父评论id
-     * @return 评论信息列表
-     */
-    List<Comment> queryChildrenComment(Long commentId);
 
     /**
      * 通过主键删除数据

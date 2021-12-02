@@ -3,12 +3,11 @@ package com.myblog.service.impl;
 import com.myblog.entity.Comment;
 import com.myblog.mapper.CommentMapper;
 import com.myblog.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * (Comment)表服务实现类
@@ -18,18 +17,8 @@ import java.util.Map;
  */
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
-    @Autowired
+    @Resource
     private CommentMapper commentMapper;
-
-
-    @Override
-    public Map<String, Object> test(Long blogId) {
-        List<Comment> comments = this.commentMapper.queryAllByBlogId(blogId);
-
-        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-        map.put("comment", this.commentMapper.queryAllByBlogId(blogId));
-        return map;
-    }
 
     /**
      * 通过博客查询评论信息
@@ -39,18 +28,17 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public List<Comment> queryAllByBlogId(Long blogId) {
-        return this.commentMapper.queryAllByBlogId(blogId);
-    }
-
-    /**
-     * 查询某一个评论的所有子评论
-     *
-     * @param commentId 父评论id
-     * @return 评论信息列表
-     */
-    @Override
-    public List<Comment> queryChildrenComment(Long commentId) {
-        return this.commentMapper.queryChildrenComment(commentId);
+        // 定义一个数组存储查询到的结果集
+        List<Comment> result = new ArrayList<>();
+        // 通过博客id查询所有父评论
+        List<Comment> comments = this.commentMapper.queryAllByBlogId(blogId);
+        for (Comment comment : comments) {
+            // 查询该评论的所有子评论
+            List<Comment> commentList = commentMapper.queryParentCommentById(comment.getCommentId());
+            comment.setChildComments(commentList);
+            result.add(comment);
+        }
+        return result;
     }
 
     /**
