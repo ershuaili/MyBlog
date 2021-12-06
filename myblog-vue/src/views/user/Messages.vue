@@ -120,10 +120,12 @@ export default {
   float: right;
   background-color: antiquewhite;
 }
-.number{
+
+.number {
   color: #ffaaff;
   margin: 0 15px;
 }
+
 /* 评论列表 */
 .message_comments {
   width: 100%;

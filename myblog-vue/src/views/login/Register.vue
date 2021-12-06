@@ -2,7 +2,7 @@
   <body id="poster">
   <form class="register_container">
     <h3 class="register_title">欢迎注册</h3>
-    <div class="register_msg">{{msg}}</div>
+    <div class="register_msg">{{ msg }}</div>
     <div class="register_input">
       <input v-model="registerForm.username" placeholder="账号" type="text">
       <input v-model="registerForm.email" placeholder="邮箱" type="text">
@@ -26,10 +26,10 @@ export default {
     return {
       registerForm: {
         username: '',
-        email:'',
+        email: '',
         password: '',
       },
-      msg:'',
+      msg: '',
     }
   },
   methods: {
@@ -53,8 +53,8 @@ export default {
     },
 
     // 转跳登录页
-    toLogin(){
-      router.push({name:'Login'})
+    toLogin() {
+      router.push({name: 'Login'})
     },
   }
 }
@@ -125,6 +125,7 @@ export default {
 .register_button {
   padding: 20px;
 }
+
 .register_button button {
   width: 70px;
   height: 30px;

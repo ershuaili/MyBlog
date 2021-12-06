@@ -45,7 +45,7 @@ export default {
               // 判断是用户还是管理员
               if (successResponse.data.role === "ADMIN") {
                 this.$router.push("/admin")
-              }else {
+              } else {
                 const path = this.$route.query.redirect;
                 this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
               }
@@ -131,6 +131,7 @@ export default {
 .login_button {
   padding: 20px;
 }
+
 .login_button button {
   width: 70px;
   height: 30px;
