@@ -8,7 +8,7 @@
     </div>
     <!-- 评论输入框 -->
     <div class="message_input">
-      <textarea class="input_textarea" placeholder="来都来了讲点啥吧QWQ"/>
+      <textarea v-model="input_textarea" class="input_textarea" placeholder="来都来了讲点啥吧QWQ"/>
       <button @click="textareaSubmit" type="button" class="input_button">提交</button>
     </div>
     <!--评论展示框-->
@@ -107,6 +107,7 @@ export default {
           ],
         }
       ],
+      input_textarea: ''
     }
   },
 
@@ -120,15 +121,21 @@ export default {
     });
 
     // 根据博客id获取评论信息
-    axios.get('/comment/queryAllByBlogId', {params: {blogId: this.$route.query.id}}).then(res => {
-      this.comment = res.data
-      console.log(this.comment)
-    }).catch(function (error) {
-      console.log(error)
-    });
+    this.getComment();
   },
 
   methods: {
+    // 根据博客id获取评论信息
+    getComment() {
+      axios.get('/comment/queryAllByBlogId', {params: {blogId: this.$route.query.id}}).then(res => {
+        this.comment = res.data
+        console.log("获取评论信息" + this.comment)
+      }).catch(function (error) {
+        console.log(error)
+      });
+    },
+
+    // 用户提交评论
     textareaSubmit() {
       if (localStorage.getItem("token") === null) {
         alert("您还没登录请先登录")
@@ -138,27 +145,29 @@ export default {
         params.append("token", localStorage.getItem("token"))
         axios.post('/user/checkToken', params)
             .then(res => {
-              console.log(res)
-              // let params = new URLSearchParams();
-              // // 评论用户id
-              // params.append("commentUserId", res.data.nickname)
-              // // 评论文章id
-              // params.append("commentArticleId", this.input_textarea)
-              // // 评论内容
-              // params.append("commentContent", this.input_textarea)
-              // // 评论父评论id
-              // params.append("parentCommentId", this.input_textarea)
-              // axios.post('/comment/insert', params)
-              //     .then(() => {
-              //       // 清空输入框
-              //       this.input_textarea = "";
-              //       // 消息数加一
-              //       this.messages++;
-              //       // 刷新消息列表
-              //       this.$refs.message.queryMessageByLimit();
-              //       // 刷新分页信息
-              //       this.$store.dispatch('setPageNum', Math.ceil((this.messages) / 5))
-              //     })
+
+              console.log("评论用id" + res.data.userId)
+              console.log("评论文章id" + this.$route.query.id.toString())
+              console.log("评论内容" + this.input_textarea)
+              console.log("评论父评论id" + 1)
+
+              let params = new URLSearchParams();
+              // 评论用户名
+              params.append("commentUserId", res.data.userId)
+              // 评论文章id
+              params.append("commentArticleId", this.$route.query.id.toString())
+              // 评论内容
+              params.append("commentContent", this.input_textarea)
+              // 评论父评论id
+              params.append("parentCommentId", 1)
+              axios.post('/comment/insert', params)
+                  .then(() => {
+                    console.log(params)
+                    // 清空输入框
+                    this.input_textarea = "";
+                    // 刷新消息列表
+                    this.getComment();
+                  })
             }).catch(function (error) {
           alert("登录信息错误,返回登录");
           router.push("/login");

@@ -1,6 +1,8 @@
 package com.myblog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myblog.entity.User;
+import com.myblog.mapper.UserMapper;
 import com.myblog.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +43,9 @@ import java.util.Map;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ObjectMapper objectMapper;
+    @Resource
+    private UserMapper userMapper;
+
     /**
      * 定义登陆成功返回信息，返回json 200
      */
@@ -50,15 +55,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 获取用户信息
             String authority = authentication.getAuthorities().iterator().next().getAuthority();
             String name = authentication.getName();
+            Long userId = userMapper.queryUserByNickname(name).getUserId();
             // 创建token
-            String token = JwtUtil.generateToken(authentication.getName(), authority);
+            String token = JwtUtil.generateToken(userId, name, authority);
             // 返回信息
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("code", 200);
             map.put("message", "登录成功");
-            map.put("role",authority);
-            map.put("nickname",name);
-            map.put("token",token);
+            map.put("role", authority);
+            map.put("nickname", name);
+            map.put("token", token);
 
             response.setContentType("application/json;charset=utf-8");
             PrintWriter out = response.getWriter();
@@ -67,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             out.close();
         }
     }
+
     /**
      * 定义登录失败返回信息，返回json 401
      */
@@ -91,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             out.close();
         }
     }
+
     /**
      * 定义登出成功返回信息,返回json 200
      */
@@ -108,6 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             out.close();
         }
     }
+
     /**
      * 定义没有权限，返回json 403
      */

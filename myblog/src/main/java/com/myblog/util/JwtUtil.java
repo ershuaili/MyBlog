@@ -1,5 +1,6 @@
 package com.myblog.util;
 
+import com.myblog.mapper.UserMapper;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,10 +25,10 @@ public class JwtUtil {
      * 自己设定的秘钥
      */
     private static final String SECRET = "qwertyuiopasdfghjklzxcvbnm124343565767890`-=[];',./";
-    /**前缀*/
+    /**
+     * 前缀
+     */
     public static final String TOKEN_PREFIX = "Bearer ";
-    /**表头授权*/
-    public static final String AUTHORIZATION = "Authorization";
 
 
     /**
@@ -36,7 +37,7 @@ public class JwtUtil {
      * @param userName 用户名
      * @return token
      */
-    public static String generateToken(String userName,String userRights) {
+    public static String generateToken(Long userId, String userName, String userRights) {
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
         // 设置签发时间
@@ -46,6 +47,7 @@ public class JwtUtil {
         Date time = calendar.getTime();
         HashMap<String, Object> map = new LinkedHashMap<>();
         //you can put any data in the map
+        map.put("userId", userId);
         map.put("userName", userName);
         map.put("userRights", userRights);
         //jwt前面一般都会加Bearer
@@ -71,10 +73,11 @@ public class JwtUtil {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody();
             LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-            map.put("nickname",body.get("userName").toString());
-            map.put("userRights",body.get("userRights").toString());
+            map.put("userId", body.get("userId").toString());
+            map.put("nickname", body.get("userName").toString());
+            map.put("userRights", body.get("userRights").toString());
             return map;
-        }catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             throw e;
         } catch (UnsupportedJwtException e) {
             log.info("UnsupportedJwtException");
@@ -88,7 +91,7 @@ public class JwtUtil {
         } catch (IllegalArgumentException e) {
             log.info("IllegalArgumentException");
             throw e;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info("Exception");
             throw e;
         }

@@ -38,6 +38,7 @@ public class CommentController {
 
     @PostMapping("/insert")
     public boolean insertComment(Comment comment) {
+        System.out.println(comment);
         return commentService.insertComment(comment);
     }
 }
