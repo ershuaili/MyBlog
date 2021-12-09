@@ -143,6 +143,7 @@ export default {
       } else {
         let params = new URLSearchParams();
         params.append("token", localStorage.getItem("token"))
+        // 校验登录状态和用户
         axios.post('/user/checkToken', params)
             .then(res => {
 
@@ -160,14 +161,18 @@ export default {
               params.append("commentContent", this.input_textarea)
               // 评论父评论id
               params.append("parentCommentId", 1)
-              axios.post('/comment/insert', params)
-                  .then(() => {
-                    console.log(params)
-                    // 清空输入框
-                    this.input_textarea = "";
-                    // 刷新消息列表
-                    this.getComment();
-                  })
+              // 判断用户输入是否为空
+              if (this.input_textarea === '') {
+                alert("请输入内容")
+              } else {
+                axios.post('/comment/insert', params).then(() => {
+                  console.log(params)
+                  // 清空输入框
+                  this.input_textarea = "";
+                  // 刷新消息列表
+                  this.getComment();
+                })
+              }
             }).catch(function (error) {
           alert("登录信息错误,返回登录");
           router.push("/login");
@@ -175,7 +180,6 @@ export default {
         });
       }
     },
-
   },
 }
 </script>
