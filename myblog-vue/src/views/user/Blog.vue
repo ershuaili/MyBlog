@@ -23,10 +23,13 @@
             <span class="message_userLabel_admin" v-if="item.user.userRights==='ADMIN'">管理员</span>
             <span class="message_userLabel" v-if="item.user.userRights==='USER'">游客</span>
             <span class="message_time">{{ item.commentCreateTime }}</span>
+            <span class="reply" @click="reply($event)">回复</span>
           </div>
           <div class="message_content">
             <!--父评论内容-->
             <div>{{ item.commentContent }}</div>
+            <!--子级评论输入框-->
+            <div class="a">fdsa</div>
             <!--子评论内容-->
             <div v-for="(childItem,index) in item.childComments" :key="index" class="sub_message">
               <!--头像-->
@@ -62,6 +65,9 @@ export default {
   components: {MdEditor},
   data() {
     return {
+      reply_input: '',
+      isShow: false,
+      input_textarea: '',
       blog: [
         {
           articleId: '',
@@ -107,7 +113,6 @@ export default {
           ],
         }
       ],
-      input_textarea: ''
     }
   },
 
@@ -129,7 +134,6 @@ export default {
     getComment() {
       axios.get('/comment/queryAllByBlogId', {params: {blogId: this.$route.query.id}}).then(res => {
         this.comment = res.data
-        console.log("获取评论信息" + this.comment)
       }).catch(function (error) {
         console.log(error)
       });
@@ -147,10 +151,10 @@ export default {
         axios.post('/user/checkToken', params)
             .then(res => {
 
-              console.log("评论用id" + res.data.userId)
-              console.log("评论文章id" + this.$route.query.id.toString())
-              console.log("评论内容" + this.input_textarea)
-              console.log("评论父评论id" + 1)
+              // console.log("评论用id" + res.data.userId)
+              // console.log("评论文章id" + this.$route.query.id.toString())
+              // console.log("评论内容" + this.input_textarea)
+              // console.log("评论父评论id" + 1)
 
               let params = new URLSearchParams();
               // 评论用户名
@@ -180,6 +184,12 @@ export default {
         });
       }
     },
+
+    // 用户回复
+    reply(e) {
+      console.log("回复")
+      console.log(e.currentTarget.parentElement.nextElementSibling.getElementsByClassName('a').innerHTML)
+    }
   },
 }
 </script>
@@ -251,6 +261,13 @@ export default {
 .input_button {
   float: right;
   background-color: antiquewhite;
+}
+
+/*回复*/
+.reply {
+  float: right;
+  color: rgb(64, 158, 255);
+  cursor: pointer;
 }
 
 /* 评论 */
