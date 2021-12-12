@@ -150,7 +150,6 @@ export default {
         // 校验登录状态和用户
         axios.post('/user/checkToken', params)
             .then(res => {
-
               // console.log("评论用id" + res.data.userId)
               // console.log("评论文章id" + this.$route.query.id.toString())
               // console.log("评论内容" + this.input_textarea)
