@@ -8,7 +8,7 @@
     </div>
     <!-- 评论输入框 -->
     <div class="message_input">
-      <textarea v-model="input_textarea" class="input_textarea" placeholder="来都来了讲点啥吧QWQ"/>
+      <textarea v-model="input_textarea" ref="inputText" class="input_textarea" placeholder="来都来了讲点啥吧QWQ"/>
       <button @click="textareaSubmit" type="button" class="input_button">提交</button>
     </div>
     <!--评论展示框-->
@@ -28,8 +28,6 @@
           <div class="message_content">
             <!--父评论内容-->
             <div>{{ item.commentContent }}</div>
-            <!--子级评论输入框-->
-            <div class="a">fdsa</div>
             <!--子评论内容-->
             <div v-for="(childItem,index) in item.childComments" :key="index" class="sub_message">
               <!--头像-->
@@ -41,6 +39,7 @@
                   <span class="message_userLabel_admin" v-if="childItem.user.userRights==='ADMIN'">管理员</span>
                   <span class="message_userLabel" v-if="childItem.user.userRights==='USER'">游客</span>
                   <span class="message_time">{{ childItem.commentCreateTime }}</span>
+                  <span class="reply" @click="reply($event)">回复</span>
                 </div>
                 <div class="message_content">
                   <div>{{ childItem.commentContent }}</div>
@@ -65,8 +64,6 @@ export default {
   components: {MdEditor},
   data() {
     return {
-      reply_input: '',
-      isShow: false,
       input_textarea: '',
       blog: [
         {
@@ -185,9 +182,9 @@ export default {
     },
 
     // 用户回复
-    reply(e) {
-      console.log("回复")
-      console.log(e.currentTarget.parentElement.nextElementSibling.getElementsByClassName('a').innerHTML)
+    reply: function () {
+      // 移动光标
+      this.$refs.inputText.focus()
     }
   },
 }
