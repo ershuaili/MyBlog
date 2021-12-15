@@ -40,4 +40,5 @@ public interface BlogService {
      * @return 博客信息列表
      */
     List<Blog> queryAllByLimit(int page);
+
 }
