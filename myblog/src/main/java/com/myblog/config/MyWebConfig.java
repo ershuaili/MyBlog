@@ -25,12 +25,14 @@ public class MyWebConfig implements WebMvcConfigurer {
         corsConfiguration.addExposedHeader("Authorization");
         return corsConfiguration;
     }
+
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", buildConfig());
         return new CorsFilter(source);
     }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOriginPatterns("*")

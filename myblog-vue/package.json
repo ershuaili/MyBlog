@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
-    "core-js": "^3.6.5",
-    "md-editor-v3": "^1.6.3",
-    "vue": "^3.0.0",
+    "core-js": "^3.19.3",
+    "md-editor-v3": "^1.7.3",
+    "vue": "^3.2.26",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

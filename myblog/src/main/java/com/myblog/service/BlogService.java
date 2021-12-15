@@ -30,12 +30,14 @@ public interface BlogService {
 
     /**
      * 获取网站公共信息
+     *
      * @return 集合
      */
-    Map<String,Object> queryCommonMessage();
+    Map<String, Object> queryCommonMessage();
 
     /**
      * 分页查询博客信息
+     *
      * @param page 页数
      * @return 博客信息列表
      */

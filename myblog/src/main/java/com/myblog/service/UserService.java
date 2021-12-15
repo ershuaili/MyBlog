@@ -13,12 +13,14 @@ import java.util.List;
 public interface UserService {
     /**
      * 查询所有用户
+     *
      * @return 用户列表
      */
     List<User> queryAll();
 
     /**
      * 查询用户通过用户名
+     *
      * @param userNickname 用户名
      * @return 用户实体
      */

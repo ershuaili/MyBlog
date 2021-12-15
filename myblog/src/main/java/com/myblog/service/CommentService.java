@@ -14,6 +14,7 @@ public interface CommentService {
 
     /**
      * 通过博客查询评论信息
+     *
      * @param blogId 博客id
      * @return 评论信息列表
      */
@@ -22,6 +23,7 @@ public interface CommentService {
 
     /**
      * 新增用户评论
+     *
      * @param comment 用户评论实体
      * @return boolean
      */

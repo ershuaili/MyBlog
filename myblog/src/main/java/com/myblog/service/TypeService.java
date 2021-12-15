@@ -14,12 +14,14 @@ public interface TypeService {
 
     /**
      * 查询所有分类信息
+     *
      * @return 分类列表
      */
     List<Type> queryAll();
 
     /**
      * 查询分类信息通过 分类名称
+     *
      * @param typeName 分类名称
      * @return 分类信息
      */
