@@ -43,7 +43,8 @@ export default {
       axios.post('/user/insert', params)
           .then(successResponse => {
             if (successResponse.data === true) {
-              this.$router.replace({path: '/message'})
+              // 注册成功返回登录
+              this.$router.replace({path: '/login'})
             } else {
               alert("注册失败");
             }
