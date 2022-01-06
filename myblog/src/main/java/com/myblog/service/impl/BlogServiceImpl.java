@@ -63,9 +63,9 @@ public class BlogServiceImpl implements BlogService {
      */
     @Override
     public List<Blog> queryAllByLimit(int page) {
+        // 分页大小
         int limit = 5;
         int offset = page * limit - limit;
-        // 分页大小
         return this.blogMapper.queryAllByLimit(offset, limit);
     }
 

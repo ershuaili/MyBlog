@@ -15,7 +15,7 @@
   </form>
   </body>
 </template>
-发布
+
 <script>
 import axios from "axios";
 import router from "@/router";
