@@ -50,10 +50,10 @@ export default {
                 this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
               }
             } else if (successResponse.data.code === 401) {
-              alert("用户名或密码错误");
+              alert("用户名或密码错误！");
             }
           }).catch(function (error) {
-        alert("用户名或密码错误");
+        alert("服务器错误，请联系管理员。");
         console.log(error);
       });
     },

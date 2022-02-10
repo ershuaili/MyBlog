@@ -1,6 +1,5 @@
 package com.myblog.util;
 
-import com.myblog.mapper.UserMapper;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

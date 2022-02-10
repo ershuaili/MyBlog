@@ -20,13 +20,11 @@ export default {
   components: {AdminNavMenu},
   // 管理员登录前校验
   beforeRouteEnter: (to, from, next) => {
-    let isAdmin = false;
     let params = new URLSearchParams();
     params.append("token", localStorage.getItem("token"))
     axios.post('/user/checkToken', params)
         .then(successResponse => {
           if (successResponse.data.userRights === "ADMIN") {
-            isAdmin = true;
             next();
           }else {
             router.push({
